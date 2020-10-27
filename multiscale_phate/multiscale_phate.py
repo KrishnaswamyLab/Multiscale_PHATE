@@ -2,6 +2,43 @@ from . import tree, embed, utils, visualize
 
 
 class Multiscale_PHATE(object):
+    """Short summary.
+
+    Parameters
+    ----------
+    scale : type
+        Description of parameter `scale`.
+    landmarks : type
+        Description of parameter `landmarks`.
+    partitions : type
+        Description of parameter `partitions`.
+    granularity : type
+        Description of parameter `granularity`.
+    n_pca : type
+        Description of parameter `n_pca`.
+    decay : type
+        Description of parameter `decay`.
+    gamma : type
+        Description of parameter `gamma`.
+    knn : type
+        Description of parameter `knn`.
+    n_jobs : type
+        Description of parameter `n_jobs`.
+
+    Attributes
+    ----------
+    scale
+    landmarks
+    partitions
+    granularity
+    n_pca
+    decay
+    gamma
+    knn
+    n_jobs
+
+    """
+
     def __init__(
         self,
         scale=1.025,
@@ -26,6 +63,19 @@ class Multiscale_PHATE(object):
         super().__init__()
 
     def fit(self, X):
+        """Short summary.
+
+        Parameters
+        ----------
+        X : type
+            Description of parameter `X`.
+
+        Returns
+        -------
+        type
+            Description of returned object.
+
+        """
         self.X = X
         self.hash = utils.hash_object(X)
         (
@@ -56,6 +106,19 @@ class Multiscale_PHATE(object):
         return self
 
     def transform(self, X):
+        """Short summary.
+
+        Parameters
+        ----------
+        X : type
+            Description of parameter `X`.
+
+        Returns
+        -------
+        type
+            Description of returned object.
+
+        """
         if utils.hash_object(X) == self.hash:
             NxTs = self.NxTs
             Xs = self.Xs
@@ -92,5 +155,18 @@ class Multiscale_PHATE(object):
         return hp_embedding, cluster_viz, sizes_viz, vis_tree
 
     def fit_transform(self, X):
+        """Short summary.
+
+        Parameters
+        ----------
+        X : type
+            Description of parameter `X`.
+
+        Returns
+        -------
+        type
+            Description of returned object.
+
+        """
         self.fit(X)
         return self.transform(X)

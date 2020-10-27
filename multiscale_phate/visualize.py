@@ -6,6 +6,23 @@ from . import embed
 
 
 def build_visualization(Xs, NxTs, merges):
+    """Short summary.
+
+    Parameters
+    ----------
+    Xs : type
+        Description of parameter `Xs`.
+    NxTs : type
+        Description of parameter `NxTs`.
+    merges : type
+        Description of parameter `merges`.
+
+    Returns
+    -------
+    type
+        Description of returned object.
+
+    """
     gradient = embed.compute_gradient(Xs, merges)
     min_layer = embed.compute_ideal_visualization_layer(gradient, Xs, min_cells=1000)
     (hp_embedding, cluster_viz, sizes_viz,) = embed.get_clusters_sizes_2(
@@ -15,6 +32,27 @@ def build_visualization(Xs, NxTs, merges):
 
 
 def build_condensation_tree(data_pca, diff_op, NxT, merged_list, Ps):
+    """Short summary.
+
+    Parameters
+    ----------
+    data_pca : type
+        Description of parameter `data_pca`.
+    diff_op : type
+        Description of parameter `diff_op`.
+    NxT : type
+        Description of parameter `NxT`.
+    merged_list : type
+        Description of parameter `merged_list`.
+    Ps : type
+        Description of parameter `Ps`.
+
+    Returns
+    -------
+    type
+        Description of returned object.
+
+    """
     with tasklogger.log_task("base visualization"):
         with warnings.catch_warnings():
             warnings.filterwarnings(

@@ -7,6 +7,27 @@ import scipy.spatial.distance
 
 
 def get_compression_features(N, features, n_pca, partitions, landmarks):
+    """Short summary.
+
+    Parameters
+    ----------
+    N : type
+        Description of parameter `N`.
+    features : type
+        Description of parameter `features`.
+    n_pca : type
+        Description of parameter `n_pca`.
+    partitions : type
+        Description of parameter `partitions`.
+    landmarks : type
+        Description of parameter `landmarks`.
+
+    Returns
+    -------
+    type
+        Description of returned object.
+
+    """
     if n_pca == None:
         n_pca = min(N, features)
     if n_pca > 100:
@@ -27,6 +48,23 @@ def get_compression_features(N, features, n_pca, partitions, landmarks):
 
 
 def cluster_components(data_subset, num_cluster, size):
+    """Short summary.
+
+    Parameters
+    ----------
+    data_subset : type
+        Description of parameter `data_subset`.
+    num_cluster : type
+        Description of parameter `num_cluster`.
+    size : type
+        Description of parameter `size`.
+
+    Returns
+    -------
+    type
+        Description of returned object.
+
+    """
     if data_subset.shape[0] == 1:
         return [0]
     k = np.ceil(data_subset.shape[0] / size).astype(int)
@@ -47,6 +85,25 @@ def cluster_components(data_subset, num_cluster, size):
 
 
 def subset_data(data, desired_num_clusters, n_jobs, num_cluster=100):
+    """Short summary.
+
+    Parameters
+    ----------
+    data : type
+        Description of parameter `data`.
+    desired_num_clusters : type
+        Description of parameter `desired_num_clusters`.
+    n_jobs : type
+        Description of parameter `n_jobs`.
+    num_cluster : type
+        Description of parameter `num_cluster`.
+
+    Returns
+    -------
+    type
+        Description of returned object.
+
+    """
     N = data.shape[0]
     size = int(N / desired_num_clusters)
     with tasklogger.log_task("partitions"):
@@ -87,6 +144,21 @@ def subset_data(data, desired_num_clusters, n_jobs, num_cluster=100):
 
 
 def merge_clusters(diff_pot_unmerged, clusters):
+    """Short summary.
+
+    Parameters
+    ----------
+    diff_pot_unmerged : type
+        Description of parameter `diff_pot_unmerged`.
+    clusters : type
+        Description of parameter `clusters`.
+
+    Returns
+    -------
+    type
+        Description of returned object.
+
+    """
     clusters_uni = np.unique(clusters)
     num_clusters = len(clusters_uni)
     diff_pot_merged = np.zeros(num_clusters * diff_pot_unmerged.shape[1]).reshape(
@@ -118,6 +190,29 @@ def get_distance_from_centroids(centroids, data, clusters):
 
 
 def map_update_data(centroids, data, new_data, partition_clusters, nn=5, n_jobs=10):
+    """Short summary.
+
+    Parameters
+    ----------
+    centroids : type
+        Description of parameter `centroids`.
+    data : type
+        Description of parameter `data`.
+    new_data : type
+        Description of parameter `new_data`.
+    partition_clusters : type
+        Description of parameter `partition_clusters`.
+    nn : type
+        Description of parameter `nn`.
+    n_jobs : type
+        Description of parameter `n_jobs`.
+
+    Returns
+    -------
+    type
+        Description of returned object.
+
+    """
     with tasklogger.log_task("map to computed partitions"):
         # getting max distance to each partition centroid
         distance_merged = get_distance_from_centroids(

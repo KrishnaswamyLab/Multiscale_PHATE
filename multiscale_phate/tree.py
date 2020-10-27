@@ -16,6 +16,37 @@ def build_tree(
     knn=5,
     n_jobs=10,
 ):
+    """Short summary.
+
+    Parameters
+    ----------
+    data_input : type
+        Description of parameter `data_input`.
+    scale : type
+        Description of parameter `scale`.
+    landmarks : type
+        Description of parameter `landmarks`.
+    partitions : type
+        Description of parameter `partitions`.
+    granularity : type
+        Description of parameter `granularity`.
+    n_pca : type
+        Description of parameter `n_pca`.
+    decay : type
+        Description of parameter `decay`.
+    gamma : type
+        Description of parameter `gamma`.
+    knn : type
+        Description of parameter `knn`.
+    n_jobs : type
+        Description of parameter `n_jobs`.
+
+    Returns
+    -------
+    type
+        Description of returned object.
+
+    """
     with tasklogger.log_task("Multiscale PHATE tree"):
         N, features = data_input.shape
 
@@ -81,6 +112,45 @@ def online_update_tree(
     scale,
     n_jobs=10,
 ):
+    """Short summary.
+
+    Parameters
+    ----------
+    data_1 : type
+        Description of parameter `data_1`.
+    data_2 : type
+        Description of parameter `data_2`.
+    pca_centroid : type
+        Description of parameter `pca_centroid`.
+    pca_op : type
+        Description of parameter `pca_op`.
+    partitions : type
+        Description of parameter `partitions`.
+    diff_operator : type
+        Description of parameter `diff_operator`.
+    diff_pca_op : type
+        Description of parameter `diff_pca_op`.
+    Xs : type
+        Description of parameter `Xs`.
+    NxTs : type
+        Description of parameter `NxTs`.
+    Ks : type
+        Description of parameter `Ks`.
+    Merges : type
+        Description of parameter `Merges`.
+    Ps : type
+        Description of parameter `Ps`.
+    scale : type
+        Description of parameter `scale`.
+    n_jobs : type
+        Description of parameter `n_jobs`.
+
+    Returns
+    -------
+    type
+        Description of returned object.
+
+    """
     with tasklogger.log_task("Multiscale PHATE tree mapping"):
         if data_1.shape[0] != len(np.unique(partitions)):
             tasklogger.log_info("PCA compressing new data...")

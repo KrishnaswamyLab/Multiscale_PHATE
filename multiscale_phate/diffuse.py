@@ -7,6 +7,31 @@ from . import compress
 
 
 def compute_diffusion_potential(data, N, decay, gamma, knn, landmarks=2000, n_jobs=10):
+    """Short summary.
+
+    Parameters
+    ----------
+    data : type
+        Description of parameter `data`.
+    N : type
+        Description of parameter `N`.
+    decay : type
+        Description of parameter `decay`.
+    gamma : type
+        Description of parameter `gamma`.
+    knn : type
+        Description of parameter `knn`.
+    landmarks : type
+        Description of parameter `landmarks`.
+    n_jobs : type
+        Description of parameter `n_jobs`.
+
+    Returns
+    -------
+    type
+        Description of returned object.
+
+    """
     with tasklogger.log_task("diffusion potential"):
 
         if landmarks != None and landmarks > data.shape[0]:
@@ -36,6 +61,23 @@ def compute_diffusion_potential(data, N, decay, gamma, knn, landmarks=2000, n_jo
 
 
 def online_update_diffusion_potential(unmapped_data, diff_op, dp_pca):
+    """Short summary.
+
+    Parameters
+    ----------
+    unmapped_data : type
+        Description of parameter `unmapped_data`.
+    diff_op : type
+        Description of parameter `diff_op`.
+    dp_pca : type
+        Description of parameter `dp_pca`.
+
+    Returns
+    -------
+    type
+        Description of returned object.
+
+    """
     with tasklogger.log_task("extended diffusion potential"):
         with tasklogger.log_task("extended kernel"):
             # Extending kernel to new data

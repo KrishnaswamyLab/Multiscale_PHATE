@@ -9,6 +9,23 @@ import sklearn.metrics.pairwise
 
 
 def comp(node, neigh, visited):
+    """Short summary.
+
+    Parameters
+    ----------
+    node : type
+        Description of parameter `node`.
+    neigh : type
+        Description of parameter `neigh`.
+    visited : type
+        Description of parameter `visited`.
+
+    Returns
+    -------
+    type
+        Description of returned object.
+
+    """
     vis = visited.add
     nodes = set([node])
     next_node = nodes.pop
@@ -20,6 +37,19 @@ def comp(node, neigh, visited):
 
 
 def merge_common(lists):
+    """Short summary.
+
+    Parameters
+    ----------
+    lists : type
+        Description of parameter `lists`.
+
+    Returns
+    -------
+    type
+        Description of returned object.
+
+    """
     neigh = collections.defaultdict(set)
     visited = set()
     for each in lists:
@@ -32,6 +62,21 @@ def merge_common(lists):
 
 
 def compute_condensation_param(X, granularity):
+    """Short summary.
+
+    Parameters
+    ----------
+    X : type
+        Description of parameter `X`.
+    granularity : type
+        Description of parameter `granularity`.
+
+    Returns
+    -------
+    type
+        Description of returned object.
+
+    """
     epsilon = granularity * (0.1 * np.mean(np.std(X))) / (X.shape[0] ** (-1 / 5))
     D = scipy.spatial.distance.pdist(X, metric="euclidean")
     merge_threshold = np.percentile(D, 0.001) + 0.001
@@ -41,6 +86,29 @@ def compute_condensation_param(X, granularity):
 
 
 def condense(X, clusters, scale, epsilon, merge_threshold, n_jobs):
+    """Short summary.
+
+    Parameters
+    ----------
+    X : type
+        Description of parameter `X`.
+    clusters : type
+        Description of parameter `clusters`.
+    scale : type
+        Description of parameter `scale`.
+    epsilon : type
+        Description of parameter `epsilon`.
+    merge_threshold : type
+        Description of parameter `merge_threshold`.
+    n_jobs : type
+        Description of parameter `n_jobs`.
+
+    Returns
+    -------
+    type
+        Description of returned object.
+
+    """
     NxT = []
     NxT.append(clusters)
     NxT.append(clusters)

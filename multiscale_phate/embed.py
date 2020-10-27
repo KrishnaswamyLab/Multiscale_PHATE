@@ -3,6 +3,19 @@ import phate
 
 
 def repulsion(temp):
+    """Short summary.
+
+    Parameters
+    ----------
+    temp : type
+        Description of parameter `temp`.
+
+    Returns
+    -------
+    type
+        Description of returned object.
+
+    """
     for r in range(temp.shape[0]):
         for c in range(temp.shape[1]):
             val = temp[r, c]
@@ -15,6 +28,21 @@ def repulsion(temp):
 
 
 def condense_visualization(merge_pairs, phate):
+    """Short summary.
+
+    Parameters
+    ----------
+    merge_pairs : type
+        Description of parameter `merge_pairs`.
+    phate : type
+        Description of parameter `phate`.
+
+    Returns
+    -------
+    type
+        Description of returned object.
+
+    """
     to_delete = []
     for m in range(len(merge_pairs)):
         to_merge = merge_pairs[m]
@@ -25,6 +53,21 @@ def condense_visualization(merge_pairs, phate):
 
 
 def compute_gradient(Xs, merges):
+    """Short summary.
+
+    Parameters
+    ----------
+    Xs : type
+        Description of parameter `Xs`.
+    merges : type
+        Description of parameter `merges`.
+
+    Returns
+    -------
+    type
+        Description of returned object.
+
+    """
     gradient = []
     m = 0
     X = Xs[0]
@@ -44,6 +87,23 @@ def compute_gradient(Xs, merges):
 
 
 def compute_ideal_visualization_layer(gradient, Xs, min_cells=100):
+    """Short summary.
+
+    Parameters
+    ----------
+    gradient : type
+        Description of parameter `gradient`.
+    Xs : type
+        Description of parameter `Xs`.
+    min_cells : type
+        Description of parameter `min_cells`.
+
+    Returns
+    -------
+    type
+        Description of returned object.
+
+    """
     minimum = np.max(gradient)
     min_layer = 0
 
@@ -58,6 +118,29 @@ def compute_ideal_visualization_layer(gradient, Xs, min_cells=100):
 
 
 def get_clusters_sizes_2(clusters_full, layer, NxT, X, repulse=False, n_jobs=10):
+    """Short summary.
+
+    Parameters
+    ----------
+    clusters_full : type
+        Description of parameter `clusters_full`.
+    layer : type
+        Description of parameter `layer`.
+    NxT : type
+        Description of parameter `NxT`.
+    X : type
+        Description of parameter `X`.
+    repulse : type
+        Description of parameter `repulse`.
+    n_jobs : type
+        Description of parameter `n_jobs`.
+
+    Returns
+    -------
+    type
+        Description of returned object.
+
+    """
     unique = np.unique(NxT[layer], return_index=True, return_counts=True)
 
     # expand_X = Xs[layer][scale_down(NxTs[layer])]

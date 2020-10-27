@@ -4,12 +4,6 @@ import warnings
 import parameterized
 
 warnings.simplefilter("error")
-warnings.filterwarnings(
-    "ignore",
-    category=RuntimeWarning,
-    message="Pre-fit PHATE should not be used to transform a new data matrix. "
-    "Please fit PHATE to the new data by running 'fit' with the new data.",
-)
 
 
 @parameterized.parameterized([(None, None), (100, None), (None, 50), (100, 50)])

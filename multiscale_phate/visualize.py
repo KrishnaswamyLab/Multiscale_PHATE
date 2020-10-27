@@ -1,5 +1,6 @@
 import numpy as np
 import tasklogger
+import warnings
 
 from . import embed
 
@@ -15,7 +16,14 @@ def build_visualization(Xs, NxTs, merges):
 
 def build_condensation_tree(data_pca, diff_op, NxT, merged_list, Ps):
     with tasklogger.log_task("base visualization"):
-        tree_phate = diff_op.transform(data_pca)
+        with warnings.catch_warnings():
+            warnings.filterwarnings(
+                "ignore",
+                category=RuntimeWarning,
+                message="Pre-fit PHATE should not be used to transform a new data matrix. "
+                "Please fit PHATE to the new data by running 'fit' with the new data.",
+            )
+            tree_phate = diff_op.transform(data_pca)
 
     # tree_phate = Ps[0] @ tree_phate
     embeddings = []

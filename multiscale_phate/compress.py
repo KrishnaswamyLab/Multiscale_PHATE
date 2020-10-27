@@ -26,6 +26,26 @@ def get_compression_features(N, features, n_pca, partitions, landmarks):
     return n_pca, partitions
 
 
+def cluster_components(data_subset, num_cluster, size):
+    if data_subset.shape[0] == 1:
+        return [0]
+    k = np.ceil(data_subset.shape[0] / size)
+    # print(data_subset.shape)
+    # print(k)
+    if k > num_cluster:
+        k = num_cluster
+    # print(k)
+    mbk = sklearn.cluster.MiniBatchKMeans(
+        init="k-means++",
+        n_clusters=k,
+        batch_size=k * 10,
+        n_init=10,
+        max_no_improvement=10,
+        verbose=0,
+    ).fit(data_subset)
+    return mbk.labels_
+
+
 def subset_data(data, desired_num_clusters, n_jobs, num_cluster=100):
     N = data.shape[0]
     size = int(N / desired_num_clusters)

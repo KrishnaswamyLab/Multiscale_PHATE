@@ -1,9 +1,29 @@
 from . import tree, embed, utils, visualize
 
 
-class Multiscale_PHATE:
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+class Multiscale_PHATE(object):
+    def __init__(
+        self,
+        scale=1.025,
+        landmarks=1000,
+        partitions=None,
+        granularity=0.1,
+        n_pca=None,
+        decay=40,
+        gamma=1,
+        knn=5,
+        n_jobs=-1,
+    ):
+        self.scale = scale
+        self.landmarks = landmarks
+        self.partitions = partitions
+        self.granularity = granularity
+        self.n_pca = n_pca
+        self.decay = decay
+        self.gamma = gamma
+        self.knn = knn
+        self.n_jobs = n_jobs
+        super().__init__()
 
     def fit(self, X):
         self.X = X
@@ -21,7 +41,18 @@ class Multiscale_PHATE:
             self.dp_pca,
             self.epsilon,
             self.merge_threshold,
-        ) = tree.build_tree(X, n_jobs=10)
+        ) = tree.build_tree(
+            X,
+            scale=self.scale,
+            landmarks=self.landmarks,
+            partitions=self.partitions,
+            granularity=self.granularity,
+            n_pca=self.n_pca,
+            decay=self.decay,
+            gamma=self.gamma,
+            knn=self.knn,
+            n_jobs=self.n_jobs,
+        )
         return self
 
     def transform(self, X):
@@ -45,8 +76,8 @@ class Multiscale_PHATE:
                 self.Ks,
                 self.merges,
                 self.Ps,
-                1.025,
-                10,
+                scale=self.scale,
+                n_jobs=self.n_jobs,
             )
 
         hp_embedding, cluster_viz, sizes_viz = visualize.build_visualization(

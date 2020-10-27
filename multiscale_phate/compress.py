@@ -29,7 +29,7 @@ def get_compression_features(N, features, n_pca, partitions, landmarks):
 def cluster_components(data_subset, num_cluster, size):
     if data_subset.shape[0] == 1:
         return [0]
-    k = np.ceil(data_subset.shape[0] / size)
+    k = np.ceil(data_subset.shape[0] / size).astype(int)
     # print(data_subset.shape)
     # print(k)
     if k > num_cluster:

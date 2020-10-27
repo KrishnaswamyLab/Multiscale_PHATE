@@ -12,7 +12,7 @@ warnings.filterwarnings(
 )
 
 
-@parameterized.parameterized([(None, None), (100, None), (100, 50)])
+@parameterized.parameterized([(None, None), (100, None), (None, 50), (100, 50)])
 def test(partitions, landmarks):
     X = np.random.normal(0, 1, (200, 200))
     mp_op = multiscale_phate.Multiscale_PHATE(

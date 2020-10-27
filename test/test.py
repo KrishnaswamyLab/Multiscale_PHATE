@@ -15,7 +15,9 @@ warnings.filterwarnings(
 @parameterized.parameterized([(None, None), (100, None), (100, 50)])
 def test(partitions, landmarks):
     X = np.random.normal(0, 1, (200, 200))
-    mp_op = multiscale_phate.Multiscale_PHATE(paritions=partitions, landmarks=landmarks)
+    mp_op = multiscale_phate.Multiscale_PHATE(
+        partitions=partitions, landmarks=landmarks
+    )
     hp_embedding, cluster_viz, sizes_viz, tree = mp_op.fit_transform(X)
     assert hp_embedding.shape[0] <= X.shape[0], (X.shape, hp_embedding.shape)
     assert hp_embedding.shape[1] == 2, (X.shape, hp_embedding.shape)

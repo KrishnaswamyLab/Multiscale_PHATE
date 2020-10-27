@@ -146,7 +146,7 @@ def online_update_tree(
 
                 for l in range(len(NxTs)):
                     NxTs_l.append(NxTs[l][clusters_idx])
-                return NxTs_l, Xs, Ks, Merges, Ps, data_pca
+                return NxTs_l, Xs, Ks, Merges, Ps, pca_centroid
 
         else:
             tasklogger.log_info("PCA compressing new data...")

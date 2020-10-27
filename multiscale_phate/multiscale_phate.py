@@ -73,6 +73,7 @@ class Multiscale_PHATE(object):
                 self.diff_op,
                 self.dp_pca,
                 self.Xs,
+                self.NxTs,
                 self.Ks,
                 self.merges,
                 self.Ps,

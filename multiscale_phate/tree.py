@@ -74,6 +74,7 @@ def online_update_tree(
     diff_operator,
     diff_pca_op,
     Xs,
+    NxTs,
     Ks,
     Merges,
     Ps,

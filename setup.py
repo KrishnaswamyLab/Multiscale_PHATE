@@ -12,12 +12,7 @@ install_requires = [
     "joblib",
 ]
 
-test_requires = [
-    "nose2",
-    "numpy",
-    "coverage",
-    "coveralls",
-]
+test_requires = ["nose2", "numpy", "coverage", "coveralls", "parameterized"]
 
 if sys.version_info[:2] < (3, 5):
     raise RuntimeError("Python version >=3.5 required.")

@@ -9,7 +9,7 @@ script:
 - python -c "import multiscale_phate"
 - pip install -U .[test]
 - black . --check --diff
-- python setup.py test
+- nose2
 deploy:
   provider: pypi
   user: scottgigante

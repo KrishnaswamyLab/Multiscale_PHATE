@@ -44,7 +44,7 @@ def subset_data(data, desired_num_clusters, n_jobs, num_cluster=100):
         clusters_unique, cluster_counts = np.unique(clusters, return_counts=True)
         clusters_next_iter = clusters.copy()
 
-        while np.max(cluster_counts) > math.ceil(N / desired_num_clusters):
+        while np.max(cluster_counts) > np.ceil(N / desired_num_clusters):
             min_val = 0
             partitions_id_uni = joblib.Parallel(n_jobs=n_jobs)(
                 joblib.delayed(cluster_components)(

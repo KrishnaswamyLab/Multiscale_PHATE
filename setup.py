@@ -1,9 +1,15 @@
 import os
 import sys
-from setuptools import setup
+from setuptools import setup, find_packages
 
 install_requires = [
-    "future",
+    "numpy",
+    "scipy",
+    "graphtools",
+    "phate",
+    "scikit-learn",
+    "tasklogger",
+    "joblib",
 ]
 
 test_requires = [
@@ -18,31 +24,40 @@ if sys.version_info[:2] < (3, 5):
 elif sys.version_info[:2] >= (3, 6):
     test_requires += ["black"]
 
-version_py = os.path.join(os.path.dirname(__file__), "tasklogger", "version.py")
+version_py = os.path.join(os.path.dirname(__file__), "multiscale_phate", "version.py")
 version = open(version_py).read().strip().split("=")[-1].replace('"', "").strip()
 
-readme = open("README.rst").read()
+readme = open("README.md").read()
 
 setup(
-    name="tasklogger",
+    name="multiscale_phate",
     version=version,
-    description="tasklogger",
-    author="Scott Gigante, Yale University",
-    author_email="scott.gigante@yale.edu",
-    packages=["tasklogger",],
+    description="multiscale_phate",
+    author="Manik Kuchroo & Scott Gigante, Yale University",
+    author_email="manik.kuchroo@yale.edu",
+    packages=find_packages(),
     include_package_data=True,
-    license="GNU General Public License Version 2",
+    license="GNU General Public License Version 3",
     install_requires=install_requires,
+    python_requires=">=3.5",
     extras_require={"test": test_requires},
     test_suite="nose2.collector.collector",
     long_description=readme,
-    url="https://github.com/scottgigante/tasklogger",
-    download_url="https://github.com/scottgigante/tasklogger/archive/v{}.tar.gz".format(
+    long_description_content_type="text/markdown",
+    url="https://github.com/KrishnaswamyLab/Multiscale_PHATE",
+    download_url="https://github.com/KrishnaswamyLab/Multiscale_PHATE/archive/v{}.tar.gz".format(
         version
     ),
-    keywords=["big-data", "tool-development", "programming",],
+    keywords=[
+        "big-data",
+        "computational-biology",
+        "dimensionality-reduction",
+        "visualization",
+        "embedding",
+        "manifold-learning",
+    ],
     classifiers=[
-        "Development Status :: 4 - Beta",
+        "Development Status :: 3 - Alpha",
         "Environment :: Console",
         "Framework :: Jupyter",
         "Intended Audience :: Developers",
@@ -51,11 +66,11 @@ setup(
         "Operating System :: MacOS :: MacOS X",
         "Operating System :: Microsoft :: Windows",
         "Operating System :: POSIX :: Linux",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
-        "Topic :: Scientific/Engineering :: Mathematics",
+        "Programming Language :: Python :: 3.7",
+        "Topic :: Scientific/Engineering :: Bio-Informatics",
+        "Topic :: Scientific/Engineering :: Visualization",
     ],
 )

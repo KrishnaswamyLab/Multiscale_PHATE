@@ -1,17 +1,17 @@
 
-Contributing to tasklogger
+Contributing to Multiscale_PHATE
 ============================
 
-There are many ways to contribute to `tasklogger`, with the most common ones
+There are many ways to contribute to `Multiscale_PHATE`, with the most common ones
 being contribution of code or documentation to the project. Improving the
 documentation is no less important than improving the library itself. If you
 find a typo in the documentation, or have made improvements, do not hesitate to
 submit a GitHub pull request.
 
 But there are many other ways to help. In particular answering queries on the
-[issue tracker](https://github.com/KrishnaswamyLab/tasklogger/issues),
+[issue tracker](https://github.com/KrishnaswamyLab/Multiscale_PHATE/issues),
 investigating bugs, and [reviewing other developers' pull
-requests](https://github.com/KrishnaswamyLab/tasklogger/pulls)
+requests](https://github.com/KrishnaswamyLab/Multiscale_PHATE/pulls)
 are very valuable contributions that decrease the burden on the project
 maintainers.
 
@@ -23,7 +23,7 @@ link to it from your website, or simply star it in GitHub to say "I use it".
 Code Style and Testing
 ----------------------
 
-`tasklogger` is maintained at close to 100% code coverage. Contributors are encouraged to write tests for their code, but if you do not know how to do so, please do not feel discouraged from contributing code! Others can always help you test your contribution.
+`Multiscale_PHATE` is maintained at close to 100% code coverage. Contributors are encouraged to write tests for their code, but if you do not know how to do so, please do not feel discouraged from contributing code! Others can always help you test your contribution.
 
 Code style is dictated by [`black`](https://pypi.org/project/black/#installation-and-usage). To automatically reformat your code when you run `git commit`, you can run `./autoblack.sh` in the root directory of this project to add a hook to your `git` repository.
 

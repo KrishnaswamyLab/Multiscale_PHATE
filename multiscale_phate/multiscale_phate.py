@@ -75,7 +75,6 @@ class Multiscale_PHATE(object):
         self.gradient = None
         self.levels = None
 
-
         super().__init__()
 
     def fit(self, X):
@@ -125,7 +124,14 @@ class Multiscale_PHATE(object):
 
         return self.levels
 
-    def transform(self, visualization_level=None, cluster_level=None, coarse_cluster_level = None, coarse_cluster = None, repulse = False):
+    def transform(
+        self,
+        visualization_level=None,
+        cluster_level=None,
+        coarse_cluster_level=None,
+        coarse_cluster=None,
+        repulse=False,
+    ):
         """Short summary.
 
         Parameters
@@ -139,7 +145,12 @@ class Multiscale_PHATE(object):
             Description of returned object.
 
         """
-        if visualization_level is None and cluster_level is None and coarse_cluster_level is None and coarse_cluster is None:
+        if (
+            visualization_level is None
+            and cluster_level is None
+            and coarse_cluster_level is None
+            and coarse_cluster is None
+        ):
             return visualize.get_visualization(
                 self.Xs, self.NxTs, self.levels[-2], self.levels[2], repulse
             )
@@ -149,8 +160,13 @@ class Multiscale_PHATE(object):
             )
         else:
             return embed.get_zoom_visualization(
-                self.Xs, self.NxTs, visualization_level, cluster_level, coarse_cluster_level, coarse_cluster,
-                self.n_jobs
+                self.Xs,
+                self.NxTs,
+                visualization_level,
+                cluster_level,
+                coarse_cluster_level,
+                coarse_cluster,
+                self.n_jobs,
             )
 
     def build_tree(self):
@@ -186,7 +202,3 @@ class Multiscale_PHATE(object):
 
         """
         return visualize.map_clusters_to_tree(self.NxTs[cluster_level], self.NxTs)
-
-
-
-

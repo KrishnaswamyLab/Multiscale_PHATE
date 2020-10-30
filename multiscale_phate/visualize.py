@@ -4,6 +4,7 @@ import warnings
 
 from . import embed
 
+
 def get_visualization(Xs, NxTs, cluster_level, visualization_level, repulse):
     """Short summary.
 
@@ -23,7 +24,7 @@ def get_visualization(Xs, NxTs, cluster_level, visualization_level, repulse):
 
     """
 
-    #min_layer = embed.compute_ideal_visualization_layer(gradient, Xs, min_cells)
+    # min_layer = embed.compute_ideal_visualization_layer(gradient, Xs, min_cells)
     (hp_embedding, cluster_viz, sizes_viz,) = embed.get_clusters_sizes_2(
         np.array(NxTs[cluster_level]), visualization_level, NxTs, Xs, repulse=repulse
     )

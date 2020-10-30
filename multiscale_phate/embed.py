@@ -1,4 +1,4 @@
-import numpy as np # loading
+import numpy as np  # loading
 import phate
 
 
@@ -86,23 +86,24 @@ def compute_gradient(Xs, merges):
         X = Xs[l + 1]
     return np.array(gradient)
 
+
 def get_levels(grad):
     """Short summary.
 
-        Parameters
-        ----------
-        grad : type
-            Description of parameter `Xs`.
+    Parameters
+    ----------
+    grad : type
+        Description of parameter `Xs`.
 
-        Returns
-        -------
-        type
-            Description of returned object.
+    Returns
+    -------
+    type
+        Description of returned object.
 
-        """
-    print('Identifying salient levels of resolution...')
+    """
+    print("Identifying salient levels of resolution...")
     minimum = np.max(grad)
-    levels = [];
+    levels = []
     levels.append(0)
 
     for i in range(1, len(grad) - 1):
@@ -111,15 +112,27 @@ def get_levels(grad):
             minimum = grad[i]
     return levels
 
-def get_zoom_visualization(Xs, NxTs, zoom_visualization_level, zoom_cluster_level, coarse_cluster_level, coarse_cluster, n_jobs):
 
-    unique = np.unique(NxTs[zoom_visualization_level], return_index=True, return_counts=True)
+def get_zoom_visualization(
+    Xs,
+    NxTs,
+    zoom_visualization_level,
+    zoom_cluster_level,
+    coarse_cluster_level,
+    coarse_cluster,
+    n_jobs,
+):
+
+    unique = np.unique(
+        NxTs[zoom_visualization_level], return_index=True, return_counts=True
+    )
     extract = NxTs[coarse_cluster_level][unique[1]] == coarse_cluster
 
     subset_X = Xs[zoom_visualization_level]
     embedding = phate.mds.embed_MDS(subset_X[extract], n_jobs=n_jobs)
 
     return embedding, NxTs[zoom_cluster_level][unique[1]][extract], unique[2][extract]
+
 
 def compute_ideal_visualization_layer(gradient, Xs, min_cells=100):
     """Short summary.

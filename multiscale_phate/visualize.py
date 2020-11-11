@@ -4,7 +4,7 @@ import warnings
 
 from . import embed
 
-def get_visualization(Xs, NxTs, cluster_level, visualization_level, repulse):
+def get_visualization(Xs, NxTs, cluster_level, visualization_level, repulse, random_state=None):
     """Short summary.
 
     Parameters
@@ -15,6 +15,10 @@ def get_visualization(Xs, NxTs, cluster_level, visualization_level, repulse):
         Description of parameter `NxTs`.
     merges : type
         Description of parameter `merges`.
+    random_state : integer or numpy.RandomState, optional, default: None
+        The generator used to initialize MDS.
+        If an integer is given, it fixes the seed.
+        Defaults to the global `numpy` random number generator
 
     Returns
     -------
@@ -25,12 +29,12 @@ def get_visualization(Xs, NxTs, cluster_level, visualization_level, repulse):
 
     #min_layer = embed.compute_ideal_visualization_layer(gradient, Xs, min_cells)
     (hp_embedding, cluster_viz, sizes_viz,) = embed.get_clusters_sizes_2(
-        np.array(NxTs[cluster_level]), visualization_level, NxTs, Xs, repulse=repulse
+        np.array(NxTs[cluster_level]), visualization_level, NxTs, Xs, repulse=repulse, random_state=random_state
     )
     return hp_embedding, cluster_viz, sizes_viz
 
 
-def build_visualization(Xs, NxTs, merges, gradient, min_cells):
+def build_visualization(Xs, NxTs, merges, gradient, min_cells, random_state=None):
     """Short summary.
 
     Parameters
@@ -41,6 +45,10 @@ def build_visualization(Xs, NxTs, merges, gradient, min_cells):
         Description of parameter `NxTs`.
     merges : type
         Description of parameter `merges`.
+    random_state : integer or numpy.RandomState, optional, default: None
+        The generator used to initialize MDS.
+        If an integer is given, it fixes the seed.
+        Defaults to the global `numpy` random number generator
 
     Returns
     -------
@@ -51,7 +59,7 @@ def build_visualization(Xs, NxTs, merges, gradient, min_cells):
 
     min_layer = embed.compute_ideal_visualization_layer(gradient, Xs, min_cells)
     (hp_embedding, cluster_viz, sizes_viz,) = embed.get_clusters_sizes_2(
-        np.array(NxTs[-35]), min_layer, NxTs, Xs, repulse=False
+        np.array(NxTs[-35]), min_layer, NxTs, Xs, repulse=False, random_state=random_state
     )
     return hp_embedding, cluster_viz, sizes_viz
 

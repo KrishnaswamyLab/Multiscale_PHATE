@@ -6,7 +6,7 @@ import sklearn.decomposition
 from . import compress
 
 
-def compute_diffusion_potential(data, N, decay, gamma, knn, landmarks=2000, n_jobs=10):
+def compute_diffusion_potential(data, N, decay, gamma, knn, landmarks=2000, n_jobs=10, random_state=None):
     """Short summary.
 
     Parameters
@@ -25,6 +25,10 @@ def compute_diffusion_potential(data, N, decay, gamma, knn, landmarks=2000, n_jo
         Description of parameter `landmarks`.
     n_jobs : type
         Description of parameter `n_jobs`.
+    random_state : integer or numpy.RandomState, optional, default: None
+        The generator used to initialize PHATE and PCA.
+        If an integer is given, it fixes the seed.
+        Defaults to the global `numpy` random number generator
 
     Returns
     -------
@@ -45,10 +49,11 @@ def compute_diffusion_potential(data, N, decay, gamma, knn, landmarks=2000, n_jo
             gamma=gamma,
             knn=knn,
             n_jobs=n_jobs,
+            random_state=random_state,
         )
         diff_op.fit(data)
 
-        pca = sklearn.decomposition.PCA(n_components=25)
+        pca = sklearn.decomposition.PCA(n_components=25, random_state=random_state)
         diff_potential_pca = pca.fit_transform(diff_op.diff_potential)
 
     return (

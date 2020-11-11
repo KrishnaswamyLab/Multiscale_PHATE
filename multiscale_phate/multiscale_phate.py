@@ -39,6 +39,10 @@ class Multiscale_PHATE(object):
         used at all, which is useful for debugging.
         For n_jobs below -1, (n_cpus + 1 + n_jobs) are used. Thus for
         n_jobs = -2, all CPUs but one are used
+    random_state : integer or numpy.RandomState, optional, default: None
+        The generator used to initialize SMACOF (metric, nonmetric) MDS
+        If an integer is given, it fixes the seed
+        Defaults to the global `numpy` random number generator
 
     Attributes
     ----------
@@ -65,6 +69,7 @@ class Multiscale_PHATE(object):
         gamma=1,
         knn=5,
         n_jobs=1,
+        random_state=None,
     ):
         self.scale = scale
         self.landmarks = landmarks
@@ -75,6 +80,7 @@ class Multiscale_PHATE(object):
         self.gamma = gamma
         self.knn = knn
         self.n_jobs = n_jobs
+        self.random_state = random_state
         self.NxTs = None
         self.Xs = None
         self.Ks = None
@@ -135,6 +141,7 @@ class Multiscale_PHATE(object):
             gamma=self.gamma,
             knn=self.knn,
             n_jobs=self.n_jobs,
+            random_state=self.random_state,
         )
 
         self.gradient = embed.compute_gradient(self.Xs, self.merges)
@@ -174,16 +181,16 @@ class Multiscale_PHATE(object):
         """
         if visualization_level is None and cluster_level is None and coarse_cluster_level is None and coarse_cluster is None:
             return visualize.get_visualization(
-                self.Xs, self.NxTs, self.levels[-2], self.levels[2], repulse
+                self.Xs, self.NxTs, self.levels[-2], self.levels[2], repulse, random_state=self.random_state
             )
         elif coarse_cluster_level is None and coarse_cluster is None:
             return visualize.get_visualization(
-                self.Xs, self.NxTs, cluster_level, visualization_level, repulse
+                self.Xs, self.NxTs, cluster_level, visualization_level, repulse, random_state=self.random_state
             )
         else:
             return embed.get_zoom_visualization(
                 self.Xs, self.NxTs, visualization_level, cluster_level, coarse_cluster_level, coarse_cluster,
-                self.n_jobs
+                self.n_jobs, random_state=self.random_state
             )
 
     def build_tree(self):

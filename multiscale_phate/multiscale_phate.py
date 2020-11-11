@@ -39,6 +39,37 @@ class Multiscale_PHATE(object):
         used at all, which is useful for debugging.
         For n_jobs below -1, (n_cpus + 1 + n_jobs) are used. Thus for
         n_jobs = -2, all CPUs but one are used
+    NxTs : list of lists
+        Cluster assignment for every point at all levels of Diffusion
+        Condensation tree
+    Xs : list of 2D numpy arrays
+        List of condensed diffusion potentials
+    Ks : list of 2D numpy arrays
+        List of kernels from each step of Diffusion Condensation
+    merges : list of lists
+        Order of merging points from every iteration of Diffusion Condensation
+    Ps : list of numpy arrays
+        List of diffusion operators from each step of Diffusion Condensation
+    diff_op : Object of class PHATE
+        Diffusion operator used to compute diffusion potential
+    data_pca : numpy array
+        PCA compression of input data
+    pca_op : object of class PCA
+        PCA operator used to compress input data
+    partition_clusters : list
+        Parition cluster assignment for input data if partitions are calculated
+    dp_pca : object of class PCA
+        PCA operatored used to comperss diffusion potential
+    epsilon : float
+        Computed starting bandwidth for Diffusion Condensation process
+    merge_threshold : float
+        Distance threshold below which cells are merged in Diffusion Condensation
+        process
+    gradient : list
+        Tracks shifts in data density from one iteration to the next
+    levels : list
+        List of salient resolutions for downstream analysis, computed via gradient
+        analysis
 
     Attributes
     ----------
@@ -51,6 +82,20 @@ class Multiscale_PHATE(object):
     gamma
     knn
     n_jobs
+    NxTs
+    Xs
+    Ks
+    merges
+    Ps
+    diff_op
+    data_pca
+    pca_op
+    partition_clusters
+    dp_pca
+    epsilon
+    merge_threshold
+    gradient
+    levels
 
     """
 
@@ -90,12 +135,10 @@ class Multiscale_PHATE(object):
         self.gradient = None
         self.levels = None
 
-
         super().__init__()
 
     def fit(self, X):
-        """Builds a Diffusion Condensation tree to the data and computes
-        ideal levels of granularity via gradient analysis.
+        """Builds Diffusion Condensation tree and computes ideal resolutions.
 
         Parameters
         ----------
@@ -106,7 +149,7 @@ class Multiscale_PHATE(object):
 
         Returns
         -------
-       multiscale_phate_operator : Multiscale_PHATE
+        multiscale_phate_operator : Multiscale_PHATE
         The estimator object
         """
         self.X = X
@@ -143,8 +186,7 @@ class Multiscale_PHATE(object):
         return self.levels
 
     def transform(self, visualization_level=None, cluster_level=None, coarse_cluster_level = None, coarse_cluster = None, repulse = False):
-        """ Computes Multiscale PHATE embedding at a particular visualization
-        and clustering granularity.
+        """Short summary.
         Parameters
         ----------
         visualization_level : int, default = levels[-2]
@@ -172,31 +214,32 @@ class Multiscale_PHATE(object):
             Number of points aggregated into each point as visualized at
             the granularity of visualization_level
         """
-        if visualization_level is None and cluster_level is None and coarse_cluster_level is None and coarse_cluster is None:
-            return visualize.get_visualization(
-                self.Xs, self.NxTs, self.levels[-2], self.levels[2], repulse
-            )
-        elif coarse_cluster_level is None and coarse_cluster is None:
+
+        if visualization_level is None:
+            visualization_level = self.levels[2]
+        if cluster_level is None:
+            cluster_level = self.levels[-2]
+        if coarse_cluster_level is None and coarse_cluster is None:
             return visualize.get_visualization(
                 self.Xs, self.NxTs, cluster_level, visualization_level, repulse
             )
         else:
             return embed.get_zoom_visualization(
-                self.Xs, self.NxTs, visualization_level, cluster_level, coarse_cluster_level, coarse_cluster,
-                self.n_jobs
+                self.Xs,
+                self.NxTs,
+                visualization_level,
+                cluster_level,
+                coarse_cluster_level,
+                coarse_cluster,
+                self.n_jobs,
             )
 
     def build_tree(self):
         """Computes and returns a tree from the Diffusion Condensation process.
 
-        Parameters
-        ----------
-        None
-
         Returns
         -------
-        embedding : array, shape=[number of aggregated points
-        across granularities, 3]
+        embedding : array, shape=[n_points_aggregated, 3]
             Embedding stacked 2D condensed representations of the Diffusion
             Condensation process as computed on X
         """
@@ -205,10 +248,8 @@ class Multiscale_PHATE(object):
         )
 
     def fit_transform(self, X):
-        """Builds a Diffusion Condensation tree to the data and computes
-        ideal levels of granularity via gradient analysis before
-        computing a Multiscale PHATE embedding at a ideal visualization
-        and clustering granularities.
+        """Builds Diffusion Condensation tree, identifies ideal resolutions and returns
+         Multiscale PHATE embedding and clusters.
 
         Parameters
         ----------
@@ -216,6 +257,7 @@ class Multiscale_PHATE(object):
             input data with `n_samples` samples and `n_dimensions`
             dimensions. Accepted data types: `numpy.ndarray`,
             `scipy.sparse.spmatrix` and `pd.DataFrame`.
+
         Returns
         -------
         embedding : array, shape=[number of points in visualization_level, 2]
@@ -241,14 +283,9 @@ class Multiscale_PHATE(object):
 
         Returns
         -------
-        clusters_tree : array shape = array, shape=[number of aggregated points
-        across granularities, 1]
+        clusters_tree : list, shape=[n_points_aggregated]
             Cluster labels of each point in computed diffusion condensation tree
             as dictated by a granularity of the tree
 
         """
         return visualize.map_clusters_to_tree(self.NxTs[cluster_level], self.NxTs)
-
-
-
-

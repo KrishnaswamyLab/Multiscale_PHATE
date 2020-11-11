@@ -33,6 +33,10 @@ def get_compression_features(N, features, n_pca, partitions, landmarks):
     if n_pca > 100:
         n_pca = 100
 
+        n_pca = 100
+
+    # if N<100000:
+    #     partitions=None
     if partitions != None and partitions >= N:
         partitions = None
 

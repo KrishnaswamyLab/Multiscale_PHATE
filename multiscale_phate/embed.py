@@ -1,6 +1,6 @@
-import numpy as np # loading
+import numpy as np
 import phate
-
+import tasklogger
 
 def repulsion(temp):
     """Short summary.
@@ -68,7 +68,7 @@ def compute_gradient(Xs, merges):
         Description of returned object.
 
     """
-    print("Computing gradient...")
+    tasklogger.log_info("Computing gradient...")
     gradient = []
     m = 0
     X = Xs[0]
@@ -100,7 +100,7 @@ def get_levels(grad):
             Description of returned object.
 
         """
-    print('Identifying salient levels of resolution...')
+    tasklogger.log_info('Identifying salient levels of resolution...')
     minimum = np.max(grad)
     levels = [];
     levels.append(0)

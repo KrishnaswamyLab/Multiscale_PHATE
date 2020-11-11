@@ -136,5 +136,4 @@ def build_condensation_tree(data_pca, diff_op, NxT, merged_list, Ps):
             )
 
         tree = np.vstack((embeddings))
-
     return tree

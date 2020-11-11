@@ -41,4 +41,4 @@ scprep.plot.scatter2d(mp_embedding, s = mp_sizes, c = mp_clusters,
 Guided Tutorial
 -----------
 
-PUT TUTORIAL LINK HERE
+TO DO: Put Tutorial link here

@@ -2,28 +2,43 @@ from . import tree, embed, utils, visualize
 
 
 class Multiscale_PHATE(object):
-    """Short summary.
+    """Multscale PHATE operator which performs dimensionality reduction and clustering across granularities.
 
     Parameters
     ----------
-    scale : type
-        Description of parameter `scale`.
-    landmarks : type
-        Description of parameter `landmarks`.
-    partitions : type
-        Description of parameter `partitions`.
-    granularity : type
-        Description of parameter `granularity`.
-    n_pca : type
-        Description of parameter `n_pca`.
-    decay : type
-        Description of parameter `decay`.
-    gamma : type
-        Description of parameter `gamma`.
-    knn : type
-        Description of parameter `knn`.
-    n_jobs : type
-        Description of parameter `n_jobs`.
+    scale : float, default: 1.025
+        speed at which epsilon increases from iteration to
+        iteration
+    landmarks : int, default: 2000
+        number of landmarks to compute diffusion potential
+        coordinates on
+    partitions : int, default: None
+        number of partitions to split data into in initial
+        coarse graining. Only applies ot large datasets
+    granularity : float, default: .1
+        Fraction of silverman bandwidth to set initial
+         kernel bandwidth to
+    n_pca : int, default: 100
+        Number of principal components to use for calculating
+        neighborhoods. For extremely large datasets, using
+        n_pca < 20 allows neighborhoods to be calculated in
+        roughly log(n_samples) time.
+    decay : int, default: 40
+        sets decay rate of kernel tails in diffusion potential
+        calculation. If None, alpha decaying kernel is not used
+    gamma : float, optional, default: 1
+        Informational distance constant between -1 and 1.
+        `gamma=1` gives the diffusion potential log potential,
+        while `gamma=0` gives a square root potential.
+    knn : int, optional, default: 5
+        number of nearest neighbors on which to build kernel for
+        diffusion potential calculation.
+    n_jobs : integer, optional, default: 1
+        The number of jobs to use for the computation.
+        If -1 all CPUs are used. If 1 is given, no parallel computing code is
+        used at all, which is useful for debugging.
+        For n_jobs below -1, (n_cpus + 1 + n_jobs) are used. Thus for
+        n_jobs = -2, all CPUs but one are used
 
     Attributes
     ----------
@@ -49,7 +64,7 @@ class Multiscale_PHATE(object):
         decay=40,
         gamma=1,
         knn=5,
-        n_jobs=-1,
+        n_jobs=1,
     ):
         self.scale = scale
         self.landmarks = landmarks
@@ -79,18 +94,20 @@ class Multiscale_PHATE(object):
         super().__init__()
 
     def fit(self, X):
-        """Short summary.
+        """Builds a Diffusion Condensation tree to the data and computes
+        ideal levels of granularity via gradient analysis.
 
         Parameters
         ----------
-        X : type
-            Description of parameter `X`.
+        X : array, shape=[n_samples, n_features]
+            input data with `n_samples` samples and `n_dimensions`
+            dimensions. Accepted data types: `numpy.ndarray`,
+            `scipy.sparse.spmatrix` and `pd.DataFrame`.
 
         Returns
         -------
-        type
-            Description of returned object.
-
+       multiscale_phate_operator : Multiscale_PHATE
+        The estimator object
         """
         self.X = X
         self.hash = utils.hash_object(X)
@@ -126,18 +143,34 @@ class Multiscale_PHATE(object):
         return self.levels
 
     def transform(self, visualization_level=None, cluster_level=None, coarse_cluster_level = None, coarse_cluster = None, repulse = False):
-        """Short summary.
-
+        """ Computes Multiscale PHATE embedding at a particular visualization
+        and clustering granularity.
         Parameters
         ----------
-        X : type
-            Description of parameter `X`.
-
+        visualization_level : int, default = levels[-2]
+            Resolution of Diffusion Condensation tree to embed.
+        cluster_level : int, default = levels[2]
+            Resolution of Diffusion Condensation tree to visualize clusters.
+        coarse_cluster_level : int, default = None
+            Resolution of Diffusion Condensation tree at which to identify
+            clusters. Setting this variable to a level of the tree allows
+            for 'zoom in' capabilities when the cluster at this resolution
+            is set by 'coarse_cluster'.
+        coarse_cluster : int, default = None
+            Cluster in 'coarse_cluster_level' to zoom in on.
+        repulse  : bool, default = False
+            Allows for repulsion between points in multiscale embedding.
         Returns
         -------
-        type
-            Description of returned object.
-
+        embedding : array, shape=[number of points in visualization_level, 2]
+            Aggregated points embedded in a lower dimensional space using
+            Multiscale PHATE
+        clusters : array shape = [number of points in visualization_level]
+            Cluster labels of aggregated points as found at the granularity
+            of cluster_level
+        sizes : array shape = [number of coarse grained samples]
+            Number of points aggregated into each point as visualized at
+            the granularity of visualization_level
         """
         if visualization_level is None and cluster_level is None and coarse_cluster_level is None and coarse_cluster is None:
             return visualize.get_visualization(
@@ -154,35 +187,64 @@ class Multiscale_PHATE(object):
             )
 
     def build_tree(self):
-        """Short summary.
+        """Computes and returns a tree from the Diffusion Condensation process.
 
         Parameters
         ----------
-        X : type
-            Description of parameter `X`.
+        None
 
         Returns
         -------
-        type
-            Description of returned object.
-
+        embedding : array, shape=[number of aggregated points
+        across granularities, 3]
+            Embedding stacked 2D condensed representations of the Diffusion
+            Condensation process as computed on X
         """
         return visualize.build_condensation_tree(
             self.data_pca, self.diff_op, self.NxTs, self.merges, self.Ps
         )
 
-    def get_tree_clusters(self, cluster_level):
-        """Short summary.
+    def fit_transform(self, X):
+        """Builds a Diffusion Condensation tree to the data and computes
+        ideal levels of granularity via gradient analysis before
+        computing a Multiscale PHATE embedding at a ideal visualization
+        and clustering granularities.
 
         Parameters
         ----------
-        X : type
-            Description of parameter `X`.
+        X : array, shape=[n_samples, n_features]
+            input data with `n_samples` samples and `n_dimensions`
+            dimensions. Accepted data types: `numpy.ndarray`,
+            `scipy.sparse.spmatrix` and `pd.DataFrame`.
+        Returns
+        -------
+        embedding : array, shape=[number of points in visualization_level, 2]
+            Aggregated points embedded in a lower dimensional space using
+            Multiscale PHATE
+        clusters : array shape = [number of points in visualization_level]
+            Cluster labels of aggregated points as found at the granularity
+            of cluster_level
+        sizes : array shape = [number of coarse grained samples]
+            Number of points aggregated into each point as visualized at
+            the granularity of visualization_level
+        """
+        self.fit()
+        return self.transform(X)
+
+    def get_tree_clusters(self, cluster_level):
+        """Colors Diffusion Condensation tree by a granularity of clusters.
+
+        Parameters
+        ----------
+        cluster_level : int
+            Resolution of Diffusion Condensation tree to visualize clusters.
 
         Returns
         -------
-        type
-            Description of returned object.
+        clusters_tree : array shape = array, shape=[number of aggregated points
+        across granularities, 1]
+            Cluster labels of each point in computed diffusion condensation tree
+            as dictated by a granularity of the tree
 
         """
         return visualize.map_clusters_to_tree(self.NxTs[cluster_level], self.NxTs)

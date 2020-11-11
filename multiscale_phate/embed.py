@@ -113,16 +113,18 @@ def get_levels(grad):
             minimum = grad[i]
     return levels
 
-
-def get_zoom_visualization(
-    Xs,
-    NxTs,
-    zoom_visualization_level,
-    zoom_cluster_level,
-    coarse_cluster_level,
-    coarse_cluster,
-    n_jobs,
-):
+def get_zoom_visualization(Xs, NxTs, zoom_visualization_level, zoom_cluster_level, coarse_cluster_level,
+                           coarse_cluster, n_jobs, random_state=None):
+    """Short summary
+    
+    Parameters
+    ----------
+    
+    random_state : integer or numpy.RandomState, optional, default: None
+        The generator used to initialize MDS.
+        If an integer is given, it fixes the seed.
+        Defaults to the global `numpy` random number generator
+    """
 
     unique = np.unique(
         NxTs[zoom_visualization_level], return_index=True, return_counts=True
@@ -130,7 +132,7 @@ def get_zoom_visualization(
     extract = NxTs[coarse_cluster_level][unique[1]] == coarse_cluster
 
     subset_X = Xs[zoom_visualization_level]
-    embedding = phate.mds.embed_MDS(subset_X[extract], n_jobs=n_jobs)
+    embedding = phate.mds.embed_MDS(subset_X[extract], n_jobs=n_jobs, seed=random_state)
 
     return embedding, NxTs[zoom_cluster_level][unique[1]][extract], unique[2][extract]
 
@@ -166,7 +168,7 @@ def compute_ideal_visualization_layer(gradient, Xs, min_cells=100):
     return min_layer
 
 
-def get_clusters_sizes_2(clusters_full, layer, NxT, X, repulse=False, n_jobs=10):
+def get_clusters_sizes_2(clusters_full, layer, NxT, X, repulse=False, n_jobs=10, random_state=None):
     """Short summary.
 
     Parameters
@@ -183,6 +185,10 @@ def get_clusters_sizes_2(clusters_full, layer, NxT, X, repulse=False, n_jobs=10)
         Description of parameter `repulse`.
     n_jobs : type
         Description of parameter `n_jobs`.
+    random_state : integer or numpy.RandomState, optional, default: None
+        The generator used to initialize MDS.
+        If an integer is given, it fixes the seed.
+        Defaults to the global `numpy` random number generator
 
     Returns
     -------
@@ -198,7 +204,7 @@ def get_clusters_sizes_2(clusters_full, layer, NxT, X, repulse=False, n_jobs=10)
     subset_X = X[layer]
 
     if repulse:
-        embedding = phate.mds.embed_MDS(repulsion(subset_X.copy()), n_jobs=n_jobs)
-    else:
-        embedding = phate.mds.embed_MDS(subset_X, n_jobs=n_jobs)
+        subset_X = repulsion(subset_X.copy())
+    
+    embedding = phate.mds.embed_MDS(subset_X, n_jobs=n_jobs, seed=random_state)
     return embedding, clusters_full[unique[1]], unique[2]

@@ -228,7 +228,7 @@ class Multiscale_PHATE(object):
             Number of points aggregated into each point as visualized at
             the granularity of visualization_level
         """
-        self.fit()
+        self.fit(X)
         return self.transform(X)
 
     def get_tree_clusters(self, cluster_level):

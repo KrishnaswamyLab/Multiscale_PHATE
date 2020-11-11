@@ -41,4 +41,4 @@ scprep.plot.scatter2d(mp_embedding, s = mp_sizes, c = mp_clusters,
 Guided Tutorial
 -----------
 
-TO DO: Put Tutorial link here
+For more details on using Multiscale PHATE, see our [guided tutorial](tutorial/10X_pbmc.ipynb) using 10X's public PBMC4k dataset.

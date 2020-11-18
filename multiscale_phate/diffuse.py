@@ -48,6 +48,7 @@ def compute_diffusion_potential(
             n_landmark=landmarks,
             decay=decay,
             gamma=gamma,
+            n_pca=None,
             knn=knn,
             n_jobs=n_jobs,
             random_state=random_state,

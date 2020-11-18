@@ -46,7 +46,6 @@ def compute_diffusion_potential(
         diff_op = phate.PHATE(
             verbose=False,
             n_landmark=landmarks,
-            n_pca=None,
             decay=decay,
             gamma=gamma,
             knn=knn,

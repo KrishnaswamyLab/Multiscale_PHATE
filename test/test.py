@@ -10,7 +10,8 @@ warnings.simplefilter("error")
 def test(partitions, landmarks):
     X = np.random.normal(0, 1, (200, 200))
     mp_op = multiscale_phate.Multiscale_PHATE(
-        partitions=partitions, landmarks=landmarks, n_pca=20
+        partitions=partitions,
+        landmarks=landmarks,  # n_pca=20
     )
     hp_embedding, cluster_viz, sizes_viz = mp_op.fit_transform(X)
     return
@@ -28,7 +29,7 @@ def test(partitions, landmarks):
     )
     # assert tree.shape[1] == 3, (X.shape, tree.shape)
 
-    Y = np.random.normal(0.5, 1, (100, 200))
+    Y = np.random.normal(0.5, 1, (200, 200))
     hp_embedding, cluster_viz, sizes_viz = mp_op.fit_transform(Y)
     assert hp_embedding.shape[0] <= X.shape[0] + Y.shape[0], (
         X.shape,
@@ -62,7 +63,9 @@ def test_random_seed():
     X = np.random.normal(0, 1, (200, 200))
 
     mp_op = multiscale_phate.Multiscale_PHATE(
-        partitions=100, landmarks=50, random_state=42, n_pca=20
+        partitions=100,
+        landmarks=50,
+        random_state=42,  # n_pca=20
     )
     hp_embedding, _, _ = mp_op.fit_transform(X)
     hp_embedding2, _, _ = mp_op.fit_transform(X)

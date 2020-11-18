@@ -15,6 +15,7 @@ def build_tree(
     gamma=1,
     knn=5,
     n_jobs=10,
+    random_state=None,
 ):
     """Short summary.
 
@@ -40,6 +41,10 @@ def build_tree(
         Description of parameter `knn`.
     n_jobs : type
         Description of parameter `n_jobs`.
+    random_state : integer or numpy.RandomState, optional, default: None
+        The random number generator.
+        If an integer is given, it fixes the seed.
+        Defaults to the global `numpy` random number generator
 
     Returns
     -------
@@ -63,13 +68,13 @@ def build_tree(
         # Subsetting if required
         if partitions != None:
             partition_clusters = compress.subset_data(
-                data_pca, partitions, n_jobs=n_jobs
+                data_pca, partitions, n_jobs=n_jobs, random_state=random_state
             )
             data_pca = compress.merge_clusters(data_pca, partition_clusters)
             clusters = partition_clusters
 
         X, diff_op, diff_pca = diffuse.compute_diffusion_potential(
-            data_pca, N, decay, gamma, knn, landmarks, n_jobs
+            data_pca, N, decay, gamma, knn, landmarks, n_jobs, random_state=random_state
         )
 
         epsilon, merge_threshold = condense.compute_condensation_param(
@@ -77,7 +82,13 @@ def build_tree(
         )
 
         NxTs, Xs, Ks, Merges, Ps = condense.condense(
-            X, clusters, scale, epsilon, merge_threshold, n_jobs
+            X,
+            clusters,
+            scale,
+            epsilon,
+            merge_threshold,
+            n_jobs,
+            random_state=random_state,
         )
 
     return (
@@ -111,6 +122,7 @@ def online_update_tree(
     Ps,
     scale,
     n_jobs=10,
+    random_state=None,
 ):
     """Short summary.
 
@@ -144,6 +156,10 @@ def online_update_tree(
         Description of parameter `scale`.
     n_jobs : type
         Description of parameter `n_jobs`.
+    random_state : integer or numpy.RandomState, optional, default: None
+        The random number generator.
+        If an integer is given, it fixes the seed.
+        Defaults to the global `numpy` random number generator
 
     Returns
     -------
@@ -201,6 +217,7 @@ def online_update_tree(
                     epsilon,
                     merge_threshold,
                     n_jobs=n_jobs,
+                    random_state=random_state,
                 )
                 return NxTs_n, Xs_n, Ks_n, Merges_n, Ps_n, pca_total
 
@@ -231,7 +248,13 @@ def online_update_tree(
             )  # change to granularity
 
             NxTs_n, Xs_n, Ks_n, Merges_n, Ps_n = condense.condense(
-                diff_pot_1, clusters, scale, epsilon, merge_threshold, n_jobs=n_jobs
+                diff_pot_1,
+                clusters,
+                scale,
+                epsilon,
+                merge_threshold,
+                n_jobs=n_jobs,
+                random_state=random_state,
             )
             return (
                 NxTs_n,

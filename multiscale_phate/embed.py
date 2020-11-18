@@ -1,5 +1,6 @@
 import numpy as np
 import phate
+import tasklogger
 
 
 def repulsion(temp):
@@ -68,6 +69,7 @@ def compute_gradient(Xs, merges):
         Description of returned object.
 
     """
+    tasklogger.log_info("Computing gradient...")
     gradient = []
     m = 0
     X = Xs[0]
@@ -84,6 +86,65 @@ def compute_gradient(Xs, merges):
         gradient.append(np.sum(np.abs(X_1 - Xs[l + 1])))
         X = Xs[l + 1]
     return np.array(gradient)
+
+
+def get_levels(grad):
+    """Short summary.
+
+    Parameters
+    ----------
+    grad : type
+        Description of parameter `Xs`.
+
+    Returns
+    -------
+    type
+        Description of returned object.
+
+
+    """
+    tasklogger.log_info("Identifying salient levels of resolution...")
+    minimum = np.max(grad)
+    levels = []
+    levels.append(0)
+
+    for i in range(1, len(grad) - 1):
+        if grad[i] <= minimum and grad[i] < grad[i + 1]:
+            levels.append(i)
+            minimum = grad[i]
+    return levels
+
+
+def get_zoom_visualization(
+    Xs,
+    NxTs,
+    zoom_visualization_level,
+    zoom_cluster_level,
+    coarse_cluster_level,
+    coarse_cluster,
+    n_jobs,
+    random_state=None,
+):
+    """Short summary
+
+    Parameters
+    ----------
+
+    random_state : integer or numpy.RandomState, optional, default: None
+        The generator used to initialize MDS.
+        If an integer is given, it fixes the seed.
+        Defaults to the global `numpy` random number generator
+    """
+
+    unique = np.unique(
+        NxTs[zoom_visualization_level], return_index=True, return_counts=True
+    )
+    extract = NxTs[coarse_cluster_level][unique[1]] == coarse_cluster
+
+    subset_X = Xs[zoom_visualization_level]
+    embedding = phate.mds.embed_MDS(subset_X[extract], n_jobs=n_jobs, seed=random_state)
+
+    return embedding, NxTs[zoom_cluster_level][unique[1]][extract], unique[2][extract]
 
 
 def compute_ideal_visualization_layer(gradient, Xs, min_cells=100):
@@ -117,9 +178,12 @@ def compute_ideal_visualization_layer(gradient, Xs, min_cells=100):
     return min_layer
 
 
-def get_clusters_sizes_2(clusters_full, layer, NxT, X, repulse=False, n_jobs=10):
+def get_clusters_sizes_2(
+    clusters_full, layer, NxT, X, repulse=False, n_jobs=10, random_state=None
+):
     """Short summary.
 
+    Parameters
     Parameters
     ----------
     clusters_full : type
@@ -134,6 +198,10 @@ def get_clusters_sizes_2(clusters_full, layer, NxT, X, repulse=False, n_jobs=10)
         Description of parameter `repulse`.
     n_jobs : type
         Description of parameter `n_jobs`.
+    random_state : integer or numpy.RandomState, optional, default: None
+        The generator used to initialize MDS.
+        If an integer is given, it fixes the seed.
+        Defaults to the global `numpy` random number generator
 
     Returns
     -------
@@ -149,7 +217,7 @@ def get_clusters_sizes_2(clusters_full, layer, NxT, X, repulse=False, n_jobs=10)
     subset_X = X[layer]
 
     if repulse:
-        embedding = phate.mds.embed_MDS(repulsion(subset_X.copy()), n_jobs=n_jobs)
-    else:
-        embedding = phate.mds.embed_MDS(subset_X, n_jobs=n_jobs)
+        subset_X = repulsion(subset_X.copy())
+
+    embedding = phate.mds.embed_MDS(subset_X, n_jobs=n_jobs, seed=random_state)
     return embedding, clusters_full[unique[1]], unique[2]

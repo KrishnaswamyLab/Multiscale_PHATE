@@ -33,9 +33,10 @@ def get_compression_features(N, features, n_pca, partitions, landmarks):
     if n_pca > 100:
         n_pca = 100
 
+        n_pca = 100
+
     # if N<100000:
     #     partitions=None
-
     if partitions != None and partitions >= N:
         partitions = None
 
@@ -47,7 +48,7 @@ def get_compression_features(N, features, n_pca, partitions, landmarks):
     return n_pca, partitions
 
 
-def cluster_components(data_subset, num_cluster, size):
+def cluster_components(data_subset, num_cluster, size, random_state=None):
     """Short summary.
 
     Parameters
@@ -58,6 +59,10 @@ def cluster_components(data_subset, num_cluster, size):
         Description of parameter `num_cluster`.
     size : type
         Description of parameter `size`.
+    random_state : integer or numpy.RandomState, optional, default: None
+        The generator used to initialize MiniBatchKMeans.
+        If an integer is given, it fixes the seed.
+        Defaults to the global `numpy` random number generator
 
     Returns
     -------
@@ -80,11 +85,12 @@ def cluster_components(data_subset, num_cluster, size):
         n_init=10,
         max_no_improvement=10,
         verbose=0,
+        random_state=random_state,
     ).fit(data_subset)
     return mbk.labels_
 
 
-def subset_data(data, desired_num_clusters, n_jobs, num_cluster=100):
+def subset_data(data, desired_num_clusters, n_jobs, num_cluster=100, random_state=None):
     """Short summary.
 
     Parameters
@@ -97,6 +103,10 @@ def subset_data(data, desired_num_clusters, n_jobs, num_cluster=100):
         Description of parameter `n_jobs`.
     num_cluster : type
         Description of parameter `num_cluster`.
+    random_state : integer or numpy.RandomState, optional, default: None
+        The generator used to initialize MiniBatchKMeans.
+        If an integer is given, it fixes the seed.
+        Defaults to the global `numpy` random number generator
 
     Returns
     -------
@@ -115,6 +125,7 @@ def subset_data(data, desired_num_clusters, n_jobs, num_cluster=100):
             n_init=10,
             max_no_improvement=10,
             verbose=0,
+            random_state=random_state,
         ).fit(data)
 
         clusters = mbk.labels_
@@ -128,6 +139,7 @@ def subset_data(data, desired_num_clusters, n_jobs, num_cluster=100):
                     data[np.where(clusters == clusters_unique[i])[0], :],
                     num_cluster,
                     size,
+                    random_state=random_state,
                 )
                 for i in range(len(clusters_unique))
             )

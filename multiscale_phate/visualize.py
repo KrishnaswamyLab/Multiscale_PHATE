@@ -5,7 +5,9 @@ import warnings
 from . import embed
 
 
-def build_visualization(Xs, NxTs, merges):
+def get_visualization(
+    Xs, NxTs, cluster_level, visualization_level, repulse, random_state=None
+):
     """Short summary.
 
     Parameters
@@ -16,6 +18,10 @@ def build_visualization(Xs, NxTs, merges):
         Description of parameter `NxTs`.
     merges : type
         Description of parameter `merges`.
+    random_state : integer or numpy.RandomState, optional, default: None
+        The generator used to initialize MDS.
+        If an integer is given, it fixes the seed.
+        Defaults to the global `numpy` random number generator
 
     Returns
     -------
@@ -23,12 +29,60 @@ def build_visualization(Xs, NxTs, merges):
         Description of returned object.
 
     """
-    gradient = embed.compute_gradient(Xs, merges)
-    min_layer = embed.compute_ideal_visualization_layer(gradient, Xs, min_cells=1000)
     (hp_embedding, cluster_viz, sizes_viz,) = embed.get_clusters_sizes_2(
-        np.array(NxTs[-35]), min_layer, NxTs, Xs, repulse=False
+        np.array(NxTs[cluster_level]),
+        visualization_level,
+        NxTs,
+        Xs,
+        repulse=repulse,
+        random_state=random_state,
     )
     return hp_embedding, cluster_viz, sizes_viz
+
+
+def build_visualization(Xs, NxTs, merges, gradient, min_cells, random_state=None):
+    """Short summary.
+
+    Parameters
+    ----------
+    Xs : type
+        Description of parameter `Xs`.
+    NxTs : type
+        Description of parameter `NxTs`.
+    merges : type
+        Description of parameter `merges`.
+    random_state : integer or numpy.RandomState, optional, default: None
+        The generator used to initialize MDS.
+        If an integer is given, it fixes the seed.
+        Defaults to the global `numpy` random number generator
+
+    Returns
+    -------
+    type
+        Description of returned object.
+
+    """
+
+    min_layer = embed.compute_ideal_visualization_layer(gradient, Xs, min_cells)
+    (hp_embedding, cluster_viz, sizes_viz,) = embed.get_clusters_sizes_2(
+        np.array(NxTs[-35]),
+        min_layer,
+        NxTs,
+        Xs,
+        repulse=False,
+        random_state=random_state,
+    )
+    return hp_embedding, cluster_viz, sizes_viz
+
+
+def map_clusters_to_tree(clusters, NxTs):
+    clusters_tree = []
+
+    for l in range(len(NxTs) - 1):
+        _, ind = np.unique(NxTs[l], return_index=True)
+        clusters_tree.extend(clusters[ind])
+
+    return clusters_tree
 
 
 def build_condensation_tree(data_pca, diff_op, NxT, merged_list, Ps):
@@ -99,7 +153,5 @@ def build_condensation_tree(data_pca, diff_op, NxT, merged_list, Ps):
                     axis=1,
                 )
             )
-
         tree = np.vstack((embeddings))
-
     return tree

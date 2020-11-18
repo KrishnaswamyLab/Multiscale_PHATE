@@ -291,7 +291,7 @@ class Multiscale_PHATE(object):
             the granularity of visualization_level
         """
         self.fit(X)
-        return self.transform(X)
+        return self.transform()
 
     def get_tree_clusters(self, cluster_level):
         """Colors Diffusion Condensation tree by a granularity of clusters.

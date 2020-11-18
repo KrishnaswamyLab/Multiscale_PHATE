@@ -184,6 +184,7 @@ def get_clusters_sizes_2(
     """Short summary.
 
     Parameters
+    Parameters
     ----------
     clusters_full : type
         Description of parameter `clusters_full`.

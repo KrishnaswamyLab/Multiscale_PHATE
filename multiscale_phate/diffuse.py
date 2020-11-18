@@ -6,7 +6,9 @@ import sklearn.decomposition
 from . import compress
 
 
-def compute_diffusion_potential(data, N, decay, gamma, knn, landmarks=2000, n_jobs=10, random_state=None):
+def compute_diffusion_potential(
+    data, N, decay, gamma, knn, landmarks=2000, n_jobs=10, random_state=None
+):
     """Short summary.
 
     Parameters

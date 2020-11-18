@@ -82,7 +82,13 @@ def build_tree(
         )
 
         NxTs, Xs, Ks, Merges, Ps = condense.condense(
-            X, clusters, scale, epsilon, merge_threshold, n_jobs, random_state=random_state
+            X,
+            clusters,
+            scale,
+            epsilon,
+            merge_threshold,
+            n_jobs,
+            random_state=random_state,
         )
 
     return (
@@ -211,7 +217,7 @@ def online_update_tree(
                     epsilon,
                     merge_threshold,
                     n_jobs=n_jobs,
-                    random_state=random_state
+                    random_state=random_state,
                 )
                 return NxTs_n, Xs_n, Ks_n, Merges_n, Ps_n, pca_total
 
@@ -242,7 +248,13 @@ def online_update_tree(
             )  # change to granularity
 
             NxTs_n, Xs_n, Ks_n, Merges_n, Ps_n = condense.condense(
-                diff_pot_1, clusters, scale, epsilon, merge_threshold, n_jobs=n_jobs, random_state=random_state
+                diff_pot_1,
+                clusters,
+                scale,
+                epsilon,
+                merge_threshold,
+                n_jobs=n_jobs,
+                random_state=random_state,
             )
             return (
                 NxTs_n,

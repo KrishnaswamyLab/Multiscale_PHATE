@@ -49,20 +49,18 @@ def test(partitions, landmarks):
     )
     assert tree.shape[1] == 3, (X.shape, Y.shape, tree.shape)
 
+
 def test_random_seed():
     X = np.random.normal(0, 1, (200, 200))
-    
+
     mp_op = multiscale_phate.Multiscale_PHATE(
         partitions=100, landmarks=50, random_state=42
     )
     hp_embedding, _, _, _ = mp_op.fit_transform(X)
     hp_embedding2, _, _, _ = mp_op.fit_transform(X)
     np.testing.assert_equal(hp_embedding, hp_embedding2)
-    
-    mp_op = multiscale_phate.Multiscale_PHATE(
-        partitions=100, landmarks=50
-    )
+
+    mp_op = multiscale_phate.Multiscale_PHATE(partitions=100, landmarks=50)
     hp_embedding, _, _, _ = mp_op.fit_transform(X)
     hp_embedding2, _, _, _ = mp_op.fit_transform(X)
     np.testing.assert_all_close(hp_embedding, hp_embedding2)
-    

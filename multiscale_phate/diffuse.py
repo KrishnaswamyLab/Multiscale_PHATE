@@ -6,7 +6,9 @@ import sklearn.decomposition
 from . import compress
 
 
-def compute_diffusion_potential(data, N, decay, gamma, knn, landmarks=2000, n_jobs=10, random_state=None):
+def compute_diffusion_potential(
+    data, N, decay, gamma, knn, landmarks=2000, n_jobs=10, random_state=None
+):
     """Short summary.
 
     Parameters
@@ -44,9 +46,9 @@ def compute_diffusion_potential(data, N, decay, gamma, knn, landmarks=2000, n_jo
         diff_op = phate.PHATE(
             verbose=False,
             n_landmark=landmarks,
-            n_pca=None,
             decay=decay,
             gamma=gamma,
+            n_pca=None,
             knn=knn,
             n_jobs=n_jobs,
             random_state=random_state,

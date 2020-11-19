@@ -145,7 +145,11 @@ def condense(X, clusters, scale, epsilon, merge_threshold, n_jobs, random_state=
             while len(merge_pairs) == 0:
                 epsilon = scale * epsilon
                 G = graphtools.Graph(
-                    X_1, knn=min(X_1.shape[0] - 2, 5), bandwidth=epsilon, n_jobs=n_jobs, random_state=random_state
+                    X_1,
+                    knn=min(X_1.shape[0] - 2, 5),
+                    bandwidth=epsilon,
+                    n_jobs=n_jobs,
+                    random_state=random_state,
                 )
 
                 P_s = G.P.toarray()

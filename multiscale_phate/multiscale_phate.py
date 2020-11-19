@@ -192,7 +192,14 @@ class Multiscale_PHATE(object):
 
         return self.levels
 
-    def transform(self, visualization_level=None, cluster_level=None, coarse_cluster_level = None, coarse_cluster = None, repulse = False):
+    def transform(
+        self,
+        visualization_level=None,
+        cluster_level=None,
+        coarse_cluster_level=None,
+        coarse_cluster=None,
+        repulse=False,
+    ):
         """Short summary.
         Parameters
         ----------
@@ -228,12 +235,23 @@ class Multiscale_PHATE(object):
             cluster_level = self.levels[-2]
         if coarse_cluster_level is None and coarse_cluster is None:
             return visualize.get_visualization(
-                self.Xs, self.NxTs, cluster_level, visualization_level, repulse, random_state=self.random_state
+                self.Xs,
+                self.NxTs,
+                cluster_level,
+                visualization_level,
+                repulse,
+                random_state=self.random_state,
             )
         else:
             return embed.get_zoom_visualization(
-                self.Xs, self.NxTs, visualization_level, cluster_level, coarse_cluster_level, coarse_cluster,
-                self.n_jobs, random_state=self.random_state
+                self.Xs,
+                self.NxTs,
+                visualization_level,
+                cluster_level,
+                coarse_cluster_level,
+                coarse_cluster,
+                self.n_jobs,
+                random_state=self.random_state,
             )
 
     def build_tree(self):
@@ -273,7 +291,7 @@ class Multiscale_PHATE(object):
             the granularity of visualization_level
         """
         self.fit(X)
-        return self.transform(X)
+        return self.transform()
 
     def get_tree_clusters(self, cluster_level):
         """Colors Diffusion Condensation tree by a granularity of clusters.

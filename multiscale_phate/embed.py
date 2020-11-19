@@ -2,6 +2,7 @@ import numpy as np
 import phate
 import tasklogger
 
+
 def repulsion(temp):
     """Short summary.
 
@@ -101,8 +102,8 @@ def get_levels(grad):
         Description of returned object.
 
 
-        """
-    tasklogger.log_info('Identifying salient levels of resolution...')
+    """
+    tasklogger.log_info("Identifying salient levels of resolution...")
     minimum = np.max(grad)
     levels = []
     levels.append(0)
@@ -113,13 +114,22 @@ def get_levels(grad):
             minimum = grad[i]
     return levels
 
-def get_zoom_visualization(Xs, NxTs, zoom_visualization_level, zoom_cluster_level, coarse_cluster_level,
-                           coarse_cluster, n_jobs, random_state=None):
+
+def get_zoom_visualization(
+    Xs,
+    NxTs,
+    zoom_visualization_level,
+    zoom_cluster_level,
+    coarse_cluster_level,
+    coarse_cluster,
+    n_jobs,
+    random_state=None,
+):
     """Short summary
-    
+
     Parameters
     ----------
-    
+
     random_state : integer or numpy.RandomState, optional, default: None
         The generator used to initialize MDS.
         If an integer is given, it fixes the seed.
@@ -168,9 +178,12 @@ def compute_ideal_visualization_layer(gradient, Xs, min_cells=100):
     return min_layer
 
 
-def get_clusters_sizes_2(clusters_full, layer, NxT, X, repulse=False, n_jobs=10, random_state=None):
+def get_clusters_sizes_2(
+    clusters_full, layer, NxT, X, repulse=False, n_jobs=10, random_state=None
+):
     """Short summary.
 
+    Parameters
     Parameters
     ----------
     clusters_full : type
@@ -205,6 +218,6 @@ def get_clusters_sizes_2(clusters_full, layer, NxT, X, repulse=False, n_jobs=10,
 
     if repulse:
         subset_X = repulsion(subset_X.copy())
-    
+
     embedding = phate.mds.embed_MDS(subset_X, n_jobs=n_jobs, seed=random_state)
     return embedding, clusters_full[unique[1]], unique[2]

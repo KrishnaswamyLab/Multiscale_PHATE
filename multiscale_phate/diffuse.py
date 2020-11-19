@@ -5,9 +5,11 @@ import sklearn.decomposition
 
 from . import compress
 
+_logger = tasklogger.get_tasklogger("graphtools")
+
 
 def compute_diffusion_potential(
-    data, N, decay, gamma, knn, landmarks=2000, n_jobs=10, random_state=None
+    data, N, decay, gamma, knn, landmarks=2000, n_jobs=10, verbose=0, random_state=None
 ):
     """Short summary. TODO
 
@@ -27,6 +29,8 @@ def compute_diffusion_potential(
         Description of parameter `landmarks`. TODO
     n_jobs : type TODO
         Description of parameter `n_jobs`. TODO
+    verbose : `int`, optional (default: 0)
+        If `> 0`, print status messages
     random_state : integer or numpy.RandomState, optional, default: None
         The generator used to initialize PHATE and PCA.
         If an integer is given, it fixes the seed.
@@ -38,19 +42,19 @@ def compute_diffusion_potential(
         Description of returned object. TODO
 
     """
-    with tasklogger.log_task("diffusion potential"):
+    with _logger.task("diffusion potential"):
 
         if landmarks != None and landmarks > data.shape[0]:
             landmarks = None
 
         diff_op = phate.PHATE(
-            verbose=False,
             n_landmark=landmarks,
             decay=decay,
             gamma=gamma,
             n_pca=None,
             knn=knn,
             n_jobs=n_jobs,
+            verbose=verbose,
             random_state=random_state,
         )
         diff_op.fit(data)
@@ -85,8 +89,8 @@ def online_update_diffusion_potential(unmapped_data, diff_op, dp_pca):
         Description of returned object. TODO
 
     """
-    with tasklogger.log_task("extended diffusion potential"):
-        with tasklogger.log_task("extended kernel"):
+    with _logger.task("extended diffusion potential"):
+        with _logger.task("extended kernel"):
             # Extending kernel to new data
             transitions = diff_op.graph.extend_to_data(unmapped_data)
 

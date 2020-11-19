@@ -2,6 +2,8 @@ import numpy as np
 import phate
 import tasklogger
 
+_logger = tasklogger.get_tasklogger("graphtools")
+
 
 def repulsion(temp):
     """Short summary. TODO
@@ -69,7 +71,7 @@ def compute_gradient(Xs, merges):
         Description of returned object. TODO
 
     """
-    tasklogger.log_info("Computing gradient...")
+    _logger.info("Computing gradient...")
     gradient = []
     m = 0
     X = Xs[0]
@@ -101,7 +103,7 @@ def get_levels(grad):
     type TODO
         Description of returned object. TODO
     """
-    tasklogger.log_info("Identifying salient levels of resolution...")
+    _logger.info("Identifying salient levels of resolution...")
     minimum = np.max(grad)
     levels = []
     levels.append(0)

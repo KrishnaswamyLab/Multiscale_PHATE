@@ -7,6 +7,8 @@ import collections
 import scipy.spatial.distance
 import sklearn.metrics.pairwise
 
+_logger = tasklogger.get_tasklogger("graphtools")
+
 
 def comp(node, neigh, visited):
     """Short summary. TODO
@@ -80,8 +82,8 @@ def compute_condensation_param(X, granularity):
     epsilon = granularity * (0.1 * np.mean(np.std(X))) / (X.shape[0] ** (-1 / 5))
     D = scipy.spatial.distance.pdist(X, metric="euclidean")
     merge_threshold = np.percentile(D, 0.001) + 0.001
-    tasklogger.log_info("Setting epsilon to " + str(round(epsilon, 4)))
-    tasklogger.log_info("Setting merge threshold to " + str(round(merge_threshold, 4)))
+    _logger.info("Setting epsilon to " + str(round(epsilon, 4)))
+    _logger.info("Setting merge threshold to " + str(round(merge_threshold, 4)))
     return epsilon, merge_threshold
 
 
@@ -130,7 +132,7 @@ def condense(X, clusters, scale, epsilon, merge_threshold, n_jobs, random_state=
     X_list.append(X_1)
     P_list = []
     merged = []
-    with tasklogger.log_task("condensation"):
+    with _logger.task("condensation"):
         while X_1.shape[0] > 1:
             D = sklearn.metrics.pairwise.pairwise_distances(
                 X_1, metric="euclidean", n_jobs=n_jobs

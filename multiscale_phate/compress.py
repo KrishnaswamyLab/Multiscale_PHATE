@@ -6,6 +6,9 @@ import sklearn.neighbors
 import scipy.spatial.distance
 
 
+_logger = tasklogger.get_tasklogger("graphtools")
+
+
 def get_compression_features(N, features, n_pca, partitions, landmarks):
     """Short summary. TODO
 
@@ -116,7 +119,7 @@ def subset_data(data, desired_num_clusters, n_jobs, num_cluster=100, random_stat
     """
     N = data.shape[0]
     size = int(N / desired_num_clusters)
-    with tasklogger.log_task("partitions"):
+    with _logger.task("partitions"):
 
         mbk = sklearn.cluster.MiniBatchKMeans(
             init="k-means++",
@@ -225,7 +228,7 @@ def map_update_data(centroids, data, new_data, partition_clusters, nn=5, n_jobs=
         Description of returned object. TODO
 
     """
-    with tasklogger.log_task("map to computed partitions"):
+    with _logger.task("map to computed partitions"):
         # getting max distance to each partition centroid
         distance_merged = get_distance_from_centroids(
             centroids, data, partition_clusters

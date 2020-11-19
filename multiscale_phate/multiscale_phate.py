@@ -1,4 +1,8 @@
+import tasklogger
+
 from . import tree, embed, utils, visualize
+
+_logger = tasklogger.get_tasklogger("graphtools")
 
 
 class Multiscale_PHATE(object):
@@ -41,6 +45,8 @@ class Multiscale_PHATE(object):
         used at all, which is useful for debugging.
         For n_jobs below -1, (n_cpus + 1 + n_jobs) are used. Thus for
         n_jobs = -2, all CPUs but one are used
+    verbose : `int` or `boolean`, optional (default: 1)
+        If `True` or `> 0`, print status messages
     random_state : integer or numpy.RandomState, optional, default: None
         The generator used to initialize SMACOF (metric, nonmetric) MDS
         If an integer is given, it fixes the seed
@@ -92,6 +98,7 @@ class Multiscale_PHATE(object):
         gamma=1,
         knn=5,
         n_jobs=1,
+        verbose=1,
         random_state=None,
     ):
         self.scale = scale
@@ -103,7 +110,12 @@ class Multiscale_PHATE(object):
         self.gamma = gamma
         self.knn = knn
         self.n_jobs = n_jobs
+        self.verbose = verbose
         self.random_state = random_state
+
+        _logger.set_level(int(verbose))
+
+        # TODO: remove all of the below? Why are they here
         self.NxTs = None
         self.Xs = None
         self.Ks = None
@@ -162,6 +174,7 @@ class Multiscale_PHATE(object):
             gamma=self.gamma,
             knn=self.knn,
             n_jobs=self.n_jobs,
+            verbose=self.verbose,
             random_state=self.random_state,
         )
 

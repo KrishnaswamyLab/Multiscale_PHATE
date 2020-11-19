@@ -4,6 +4,8 @@ import warnings
 
 from . import embed
 
+_logger = tasklogger.get_tasklogger("graphtools")
+
 
 def get_visualization(
     Xs, NxTs, cluster_level, visualization_level, repulse, random_state=None
@@ -107,7 +109,7 @@ def build_condensation_tree(data_pca, diff_op, NxT, merged_list, Ps):
         Description of returned object.
 
     """
-    with tasklogger.log_task("base visualization"):
+    with _logger.task("base visualization"):
         with warnings.catch_warnings():
             warnings.filterwarnings(
                 "ignore",
@@ -131,7 +133,7 @@ def build_condensation_tree(data_pca, diff_op, NxT, merged_list, Ps):
 
     m = 0
 
-    with tasklogger.log_task("tree"):
+    with _logger.task("tree"):
         for l in range(0, len(Ps)):
             if len(np.unique(NxT[l])) != len(np.unique(NxT[l + 1])):
                 tree_phate_1 = embed.condense_visualization(merged_list[m], tree_phate)

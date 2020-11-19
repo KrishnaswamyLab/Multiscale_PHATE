@@ -3,6 +3,8 @@ import tasklogger
 import sklearn.decomposition
 from . import compress, diffuse, condense
 
+_logger = tasklogger.get_tasklogger("graphtools")
+
 
 def build_tree(
     data_input,
@@ -15,6 +17,7 @@ def build_tree(
     gamma=1,
     knn=5,
     n_jobs=10,
+    verbose=1,
     random_state=None,
 ):
     """Short summary. TODO
@@ -41,6 +44,8 @@ def build_tree(
         Description of parameter `knn`. TODO
     n_jobs : type TODO
         Description of parameter `n_jobs`. TODO
+    verbose : `int`, optional (default: 1)
+        If `> 0`, print status messages
     random_state : integer or numpy.RandomState, optional, default: None
         The random number generator.
         If an integer is given, it fixes the seed.
@@ -52,7 +57,7 @@ def build_tree(
         Description of returned object. TODO
 
     """
-    with tasklogger.log_task("Multiscale PHATE tree"):
+    with _logger.task("Multiscale PHATE tree"):
         N, features = data_input.shape
 
         # Computing compression features
@@ -60,7 +65,7 @@ def build_tree(
             N, features, n_pca, partitions, landmarks
         )
 
-        with tasklogger.log_task("PCA"):
+        with _logger.task("PCA"):
             pca_op = sklearn.decomposition.PCA(n_components=n_pca)
             data_pca = pca_op.fit_transform(np.array(data_input))
         clusters = np.arange(N)
@@ -74,7 +79,15 @@ def build_tree(
             clusters = partition_clusters
 
         X, diff_op, diff_pca = diffuse.compute_diffusion_potential(
-            data_pca, N, decay, gamma, knn, landmarks, n_jobs, random_state=random_state
+            data_pca,
+            N,
+            decay,
+            gamma,
+            knn,
+            landmarks,
+            n_jobs,
+            verbose=verbose - 1,
+            random_state=random_state,
         )
 
         epsilon, merge_threshold = condense.compute_condensation_param(
@@ -167,9 +180,9 @@ def online_update_tree(
         Description of returned object. TODO
 
     """
-    with tasklogger.log_task("Multiscale PHATE tree mapping"):
+    with _logger.task("Multiscale PHATE tree mapping"):
         if data_1.shape[0] != len(np.unique(partitions)):
-            tasklogger.log_info("PCA compressing new data...")
+            _logger.info("PCA compressing new data...")
             data_pca_1 = pca_op.transform(np.array(data_1))
             data_pca_2 = pca_op.transform(np.array(data_2))
 
@@ -177,7 +190,7 @@ def online_update_tree(
             partition_assignments = compress.map_update_data(
                 pca_centroid, data_pca_1, data_pca_2, partitions, nn=5, n_jobs=n_jobs
             )
-            tasklogger.log_info(
+            _logger.info(
                 "Points not mapped to partitions: "
                 + str(sum(partition_assignments == -1))
             )
@@ -223,7 +236,7 @@ def online_update_tree(
 
             else:
                 clusters = new_partition_clusters
-                tasklogger.log_info("Rebuilding condensation tree...")
+                _logger.info("Rebuilding condensation tree...")
                 clusters_idx = []
 
                 for c in clusters:
@@ -236,7 +249,7 @@ def online_update_tree(
                 return NxTs_l, Xs, Ks, Merges, Ps, pca_centroid
 
         else:
-            tasklogger.log_info("PCA compressing new data...")
+            _logger.info("PCA compressing new data...")
             data_pca_2 = pca_op.transform(np.array(data_2))
             diff_pot_1 = diffuse.online_update_diffusion_potential(
                 data_pca_2, diff_operator, diff_pca_op

@@ -74,7 +74,8 @@ def test_random_seed():
     mp_op = multiscale_phate.Multiscale_PHATE(partitions=100, landmarks=50)
     hp_embedding, _, _ = mp_op.fit_transform(X)
     hp_embedding2, _, _ = mp_op.fit_transform(X)
-    assert not np.all(hp_embedding == hp_embedding2)
+    if hp_embedding.shape[0] == hp_embedding2.shape[0]:
+        assert not np.all(hp_embedding == hp_embedding2)
 
 
 @parameterized.parameterized(

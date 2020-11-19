@@ -100,7 +100,7 @@ def test_compression_features_pca(N, features, n_pca, expected):
     output, _ = multiscale_phate.compress.get_compression_features(
         N, features, n_pca, partitions
     )
-    assert output == expected
+    assert output == expected, (output, expected)
 
 
 @parameterized.parameterized(
@@ -126,4 +126,4 @@ def test_compression_features_partitions(N, partitions, expected):
     _, output = multiscale_phate.compress.get_compression_features(
         N, features, n_pca, partitions
     )
-    assert output == expected
+    assert output == expected, (output, expected)

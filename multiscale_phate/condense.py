@@ -120,8 +120,6 @@ def condense(X, clusters, scale, epsilon, merge_threshold, n_jobs, random_state=
     NxT.append(clusters)
     X_cont = []
 
-    N = X.shape[0]
-
     for c in range(len(np.unique(clusters))):
         loc = np.where(c == clusters)[0]
         X_cont.append(list(loc))

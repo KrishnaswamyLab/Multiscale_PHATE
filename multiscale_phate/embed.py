@@ -76,17 +76,17 @@ def compute_gradient(Xs, merges):
     m = 0
     X = Xs[0]
 
-    for l in range(0, len(Xs) - 1):
-        if X.shape[0] != Xs[l + 1].shape[0]:
+    for layer in range(0, len(Xs) - 1):
+        if X.shape[0] != Xs[layer + 1].shape[0]:
             X_1 = condense_visualization(merges[m], X)
             m = m + 1
-            while X_1.shape[0] != Xs[l + 1].shape[0]:
+            while X_1.shape[0] != Xs[layer + 1].shape[0]:
                 X_1 = condense_visualization(merges[m], X_1)
                 m = m + 1
         else:
             X_1 = X
-        gradient.append(np.sum(np.abs(X_1 - Xs[l + 1])))
-        X = Xs[l + 1]
+        gradient.append(np.sum(np.abs(X_1 - Xs[layer + 1])))
+        X = Xs[layer + 1]
     return np.array(gradient)
 
 
@@ -135,7 +135,6 @@ def get_zoom_visualization(
         If an integer is given, it fixes the seed.
         Defaults to the global `numpy` random number generator
     """
-
     unique = np.unique(
         NxTs[zoom_visualization_level], return_index=True, return_counts=True
     )
@@ -167,13 +166,13 @@ def compute_ideal_visualization_layer(gradient, Xs, min_cells=100):
     minimum = np.max(gradient)
     min_layer = 0
 
-    for l in range(1, len(Xs)):
-        if Xs[l].shape[0] < min_cells:
+    for layer in range(1, len(Xs)):
+        if Xs[layer].shape[0] < min_cells:
             break
-        if gradient[l] < minimum:
+        if gradient[layer] < minimum:
             # print("New minimum!")
-            minimum = gradient[l]
-            min_layer = l
+            minimum = gradient[layer]
+            min_layer = layer
     return min_layer
 
 

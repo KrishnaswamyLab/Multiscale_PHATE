@@ -44,7 +44,7 @@ def compute_diffusion_potential(
     """
     with _logger.task("diffusion potential"):
 
-        if landmarks != None and landmarks > data.shape[0]:
+        if landmarks is not None and landmarks > data.shape[0]:
             landmarks = None
 
         diff_op = phate.PHATE(

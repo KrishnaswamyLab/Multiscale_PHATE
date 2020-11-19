@@ -71,7 +71,7 @@ def build_tree(
         clusters = np.arange(N)
 
         # Subsetting if required
-        if partitions != None:
+        if partitions is not None:
             partition_clusters = compress.subset_data(
                 data_pca, partitions, n_jobs=n_jobs, random_state=random_state
             )
@@ -191,8 +191,9 @@ def online_update_tree(
                 pca_centroid, data_pca_1, data_pca_2, partitions, nn=5, n_jobs=n_jobs
             )
             _logger.info(
-                "Points not mapped to partitions: "
-                + str(sum(partition_assignments == -1))
+                "Points not mapped to partitions: {}".format(
+                    sum(partition_assignments == -1)
+                )
             )
 
             # creating new joint paritions mapping
@@ -244,8 +245,8 @@ def online_update_tree(
 
                 NxTs_l = []
 
-                for l in range(len(NxTs)):
-                    NxTs_l.append(NxTs[l][clusters_idx])
+                for layer in range(len(NxTs)):
+                    NxTs_l.append(NxTs[layer][clusters_idx])
                 return NxTs_l, Xs, Ks, Merges, Ps, pca_centroid
 
         else:

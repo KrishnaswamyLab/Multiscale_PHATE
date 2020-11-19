@@ -31,7 +31,7 @@ def get_compression_features(N, features, n_pca, partitions, landmarks):
         Description of returned object. TODO
 
     """
-    if n_pca == None:
+    if n_pca is None:
         n_pca = min(N, features)
     if n_pca > 100:
         n_pca = 100
@@ -40,10 +40,10 @@ def get_compression_features(N, features, n_pca, partitions, landmarks):
 
     # if N<100000:
     #     partitions=None
-    if partitions != None and partitions >= N:
+    if partitions is not None and partitions >= N:
         partitions = None
 
-    if partitions != None and partitions > 50000:
+    if partitions is not None and partitions > 50000:
         partitions = 50000
     elif N > 100000:
         partitions = 20000
@@ -188,6 +188,22 @@ def merge_clusters(diff_pot_unmerged, clusters):
 
 
 def get_distance_from_centroids(centroids, data, clusters):
+    """Short summary.
+
+    Parameters
+    ----------
+    centroids : type
+        Description of parameter `centroids`.
+    data : type
+        Description of parameter `data`.
+    clusters : type
+        Description of parameter `clusters`.
+
+    Returns
+    -------
+    type
+        Description of returned object.
+    """
     distance = np.zeros(centroids.shape[0])
 
     for c in range(centroids.shape[0]):
@@ -249,7 +265,7 @@ def map_update_data(centroids, data, new_data, partition_clusters, nn=5, n_jobs=
         for r in range(len(subset_partition_assignment)):
             c = 0
             while c < nn:
-                if parition_assignment_bool[r, c] == True:
+                if parition_assignment_bool[r, c] is True:
                     subset_partition_assignment[r] = neighbor_idx[r, c]
                     c = nn + 1
                     break

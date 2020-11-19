@@ -8,15 +8,15 @@ from . import embed
 def get_visualization(
     Xs, NxTs, cluster_level, visualization_level, repulse, random_state=None
 ):
-    """Short summary.
+    """Short summary. TODO
 
     Parameters
     ----------
-    Xs : type
+    Xs : type TODO
         Description of parameter `Xs`.
-    NxTs : type
+    NxTs : type TODO
         Description of parameter `NxTs`.
-    merges : type
+    merges : type TODO
         Description of parameter `merges`.
     random_state : integer or numpy.RandomState, optional, default: None
         The generator used to initialize MDS.
@@ -25,7 +25,7 @@ def get_visualization(
 
     Returns
     -------
-    type
+    type TODO
         Description of returned object.
 
     """
@@ -41,15 +41,15 @@ def get_visualization(
 
 
 def build_visualization(Xs, NxTs, merges, gradient, min_cells, random_state=None):
-    """Short summary.
+    """Short summary. TODO
 
     Parameters
     ----------
-    Xs : type
+    Xs : type TODO
         Description of parameter `Xs`.
-    NxTs : type
+    NxTs : type TODO
         Description of parameter `NxTs`.
-    merges : type
+    merges : type TODO
         Description of parameter `merges`.
     random_state : integer or numpy.RandomState, optional, default: None
         The generator used to initialize MDS.
@@ -58,7 +58,7 @@ def build_visualization(Xs, NxTs, merges, gradient, min_cells, random_state=None
 
     Returns
     -------
-    type
+    type TODO
         Description of returned object.
 
     """
@@ -86,24 +86,24 @@ def map_clusters_to_tree(clusters, NxTs):
 
 
 def build_condensation_tree(data_pca, diff_op, NxT, merged_list, Ps):
-    """Short summary.
+    """Short summary. TODO
 
     Parameters
     ----------
-    data_pca : type
+    data_pca : type TODO
         Description of parameter `data_pca`.
-    diff_op : type
+    diff_op : type TODO
         Description of parameter `diff_op`.
-    NxT : type
+    NxT : type TODO
         Description of parameter `NxT`.
-    merged_list : type
+    merged_list : type TODO
         Description of parameter `merged_list`.
-    Ps : type
+    Ps : type TODO
         Description of parameter `Ps`.
 
     Returns
     -------
-    type
+    type TODO
         Description of returned object.
 
     """

@@ -7,25 +7,25 @@ import scipy.spatial.distance
 
 
 def get_compression_features(N, features, n_pca, partitions, landmarks):
-    """Short summary.
+    """Short summary. TODO
 
     Parameters
     ----------
-    N : type
-        Description of parameter `N`.
-    features : type
-        Description of parameter `features`.
-    n_pca : type
-        Description of parameter `n_pca`.
-    partitions : type
-        Description of parameter `partitions`.
-    landmarks : type
-        Description of parameter `landmarks`.
+    N : type TODO
+        Description of parameter `N`. TODO
+    features : type TODO
+        Description of parameter `features`. TODO
+    n_pca : type TODO
+        Description of parameter `n_pca`. TODO
+    partitions : type TODO
+        Description of parameter `partitions`. TODO
+    landmarks : type TODO
+        Description of parameter `landmarks`. TODO
 
     Returns
     -------
-    type
-        Description of returned object.
+    type TODO
+        Description of returned object. TODO
 
     """
     if n_pca == None:
@@ -49,16 +49,16 @@ def get_compression_features(N, features, n_pca, partitions, landmarks):
 
 
 def cluster_components(data_subset, num_cluster, size, random_state=None):
-    """Short summary.
+    """Short summary. TODO
 
     Parameters
     ----------
-    data_subset : type
-        Description of parameter `data_subset`.
-    num_cluster : type
-        Description of parameter `num_cluster`.
-    size : type
-        Description of parameter `size`.
+    data_subset : type TODO
+        Description of parameter `data_subset`. TODO
+    num_cluster : type TODO
+        Description of parameter `num_cluster`. TODO
+    size : type TODO
+        Description of parameter `size`. TODO
     random_state : integer or numpy.RandomState, optional, default: None
         The generator used to initialize MiniBatchKMeans.
         If an integer is given, it fixes the seed.
@@ -66,8 +66,8 @@ def cluster_components(data_subset, num_cluster, size, random_state=None):
 
     Returns
     -------
-    type
-        Description of returned object.
+    type TODO
+        Description of returned object. TODO
 
     """
     if data_subset.shape[0] == 1:
@@ -91,18 +91,18 @@ def cluster_components(data_subset, num_cluster, size, random_state=None):
 
 
 def subset_data(data, desired_num_clusters, n_jobs, num_cluster=100, random_state=None):
-    """Short summary.
+    """Short summary. TODO
 
     Parameters
     ----------
-    data : type
-        Description of parameter `data`.
-    desired_num_clusters : type
-        Description of parameter `desired_num_clusters`.
-    n_jobs : type
-        Description of parameter `n_jobs`.
-    num_cluster : type
-        Description of parameter `num_cluster`.
+    data : type TODO
+        Description of parameter `data`. TODO
+    desired_num_clusters : type TODO
+        Description of parameter `desired_num_clusters`. TODO
+    n_jobs : type TODO
+        Description of parameter `n_jobs`. TODO
+    num_cluster : type TODO
+        Description of parameter `num_cluster`. TODO
     random_state : integer or numpy.RandomState, optional, default: None
         The generator used to initialize MiniBatchKMeans.
         If an integer is given, it fixes the seed.
@@ -110,8 +110,8 @@ def subset_data(data, desired_num_clusters, n_jobs, num_cluster=100, random_stat
 
     Returns
     -------
-    type
-        Description of returned object.
+    type TODO
+        Description of returned object. TODO
 
     """
     N = data.shape[0]
@@ -156,19 +156,19 @@ def subset_data(data, desired_num_clusters, n_jobs, num_cluster=100, random_stat
 
 
 def merge_clusters(diff_pot_unmerged, clusters):
-    """Short summary.
+    """Short summary. TODO
 
     Parameters
     ----------
-    diff_pot_unmerged : type
-        Description of parameter `diff_pot_unmerged`.
-    clusters : type
-        Description of parameter `clusters`.
+    diff_pot_unmerged : type TODO
+        Description of parameter `diff_pot_unmerged`. TODO
+    clusters : type TODO
+        Description of parameter `clusters`. TODO
 
     Returns
     -------
-    type
-        Description of returned object.
+    type TODO
+        Description of returned object. TODO
 
     """
     clusters_uni = np.unique(clusters)
@@ -202,27 +202,27 @@ def get_distance_from_centroids(centroids, data, clusters):
 
 
 def map_update_data(centroids, data, new_data, partition_clusters, nn=5, n_jobs=10):
-    """Short summary.
+    """Short summary. TODO
 
     Parameters
     ----------
-    centroids : type
-        Description of parameter `centroids`.
-    data : type
-        Description of parameter `data`.
-    new_data : type
-        Description of parameter `new_data`.
-    partition_clusters : type
-        Description of parameter `partition_clusters`.
-    nn : type
-        Description of parameter `nn`.
-    n_jobs : type
-        Description of parameter `n_jobs`.
+    centroids : type TODO
+        Description of parameter `centroids`. TODO
+    data : type TODO
+        Description of parameter `data`. TODO
+    new_data : type TODO
+        Description of parameter `new_data`. TODO
+    partition_clusters : type TODO
+        Description of parameter `partition_clusters`. TODO
+    nn : type TODO
+        Description of parameter `nn`. TODO
+    n_jobs : type TODO
+        Description of parameter `n_jobs`. TODO
 
     Returns
     -------
-    type
-        Description of returned object.
+    type TODO
+        Description of returned object. TODO
 
     """
     with tasklogger.log_task("map to computed partitions"):

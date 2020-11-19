@@ -9,21 +9,21 @@ import sklearn.metrics.pairwise
 
 
 def comp(node, neigh, visited):
-    """Short summary.
+    """Short summary. TODO
 
     Parameters
     ----------
-    node : type
-        Description of parameter `node`.
-    neigh : type
-        Description of parameter `neigh`.
-    visited : type
-        Description of parameter `visited`.
+    node : type TODO
+        Description of parameter `node`. TODO
+    neigh : type TODO
+        Description of parameter `neigh`. TODO
+    visited : type TODO
+        Description of parameter `visited`. TODO
 
     Returns
     -------
-    type
-        Description of returned object.
+    type TODO
+        Description of returned object. TODO
 
     """
     vis = visited.add
@@ -37,17 +37,17 @@ def comp(node, neigh, visited):
 
 
 def merge_common(lists):
-    """Short summary.
+    """Short summary. TODO
 
     Parameters
     ----------
-    lists : type
-        Description of parameter `lists`.
+    lists : type TODO
+        Description of parameter `lists`. TODO
 
     Returns
     -------
-    type
-        Description of returned object.
+    type TODO
+        Description of returned object. TODO
 
     """
     neigh = collections.defaultdict(set)
@@ -62,19 +62,19 @@ def merge_common(lists):
 
 
 def compute_condensation_param(X, granularity):
-    """Short summary.
+    """Short summary. TODO
 
     Parameters
     ----------
-    X : type
-        Description of parameter `X`.
-    granularity : type
-        Description of parameter `granularity`.
+    X : type TODO
+        Description of parameter `X`. TODO
+    granularity : type TODO
+        Description of parameter `granularity`. TODO
 
     Returns
     -------
-    type
-        Description of returned object.
+    type TODO
+        Description of returned object. TODO
 
     """
     epsilon = granularity * (0.1 * np.mean(np.std(X))) / (X.shape[0] ** (-1 / 5))
@@ -86,22 +86,22 @@ def compute_condensation_param(X, granularity):
 
 
 def condense(X, clusters, scale, epsilon, merge_threshold, n_jobs, random_state=None):
-    """Short summary.
+    """Short summary. TODO
 
     Parameters
     ----------
-    X : type
-        Description of parameter `X`.
-    clusters : type
-        Description of parameter `clusters`.
-    scale : type
-        Description of parameter `scale`.
-    epsilon : type
-        Description of parameter `epsilon`.
-    merge_threshold : type
-        Description of parameter `merge_threshold`.
-    n_jobs : type
-        Description of parameter `n_jobs`.
+    X : type TODO
+        Description of parameter `X`. TODO
+    clusters : type TODO
+        Description of parameter `clusters`. TODO
+    scale : type TODO
+        Description of parameter `scale`. TODO
+    epsilon : type TODO
+        Description of parameter `epsilon`. TODO
+    merge_threshold : type TODO
+        Description of parameter `merge_threshold`. TODO
+    n_jobs : type TODO
+        Description of parameter `n_jobs`. TODO
     random_state : integer or numpy.RandomState, optional, default: None
         The generator used to initialize graphtools.
         If an integer is given, it fixes the seed.
@@ -109,8 +109,8 @@ def condense(X, clusters, scale, epsilon, merge_threshold, n_jobs, random_state=
 
     Returns
     -------
-    type
-        Description of returned object.
+    type TODO
+        Description of returned object. TODO
 
     """
     NxT = []

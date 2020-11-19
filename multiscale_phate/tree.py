@@ -17,30 +17,30 @@ def build_tree(
     n_jobs=10,
     random_state=None,
 ):
-    """Short summary.
+    """Short summary. TODO
 
     Parameters
     ----------
-    data_input : type
-        Description of parameter `data_input`.
-    scale : type
-        Description of parameter `scale`.
-    landmarks : type
-        Description of parameter `landmarks`.
-    partitions : type
-        Description of parameter `partitions`.
-    granularity : type
-        Description of parameter `granularity`.
-    n_pca : type
-        Description of parameter `n_pca`.
-    decay : type
-        Description of parameter `decay`.
-    gamma : type
-        Description of parameter `gamma`.
-    knn : type
-        Description of parameter `knn`.
-    n_jobs : type
-        Description of parameter `n_jobs`.
+    data_input : type TODO
+        Description of parameter `data_input`. TODO
+    scale : type TODO
+        Description of parameter `scale`. TODO
+    landmarks : type TODO
+        Description of parameter `landmarks`. TODO
+    partitions : type TODO
+        Description of parameter `partitions`. TODO
+    granularity : type TODO
+        Description of parameter `granularity`. TODO
+    n_pca : type TODO
+        Description of parameter `n_pca`. TODO
+    decay : type TODO
+        Description of parameter `decay`. TODO
+    gamma : type TODO
+        Description of parameter `gamma`. TODO
+    knn : type TODO
+        Description of parameter `knn`. TODO
+    n_jobs : type TODO
+        Description of parameter `n_jobs`. TODO
     random_state : integer or numpy.RandomState, optional, default: None
         The random number generator.
         If an integer is given, it fixes the seed.
@@ -48,8 +48,8 @@ def build_tree(
 
     Returns
     -------
-    type
-        Description of returned object.
+    type TODO
+        Description of returned object. TODO
 
     """
     with tasklogger.log_task("Multiscale PHATE tree"):
@@ -124,38 +124,38 @@ def online_update_tree(
     n_jobs=10,
     random_state=None,
 ):
-    """Short summary.
+    """Short summary. TODO
 
     Parameters
     ----------
-    data_1 : type
-        Description of parameter `data_1`.
-    data_2 : type
-        Description of parameter `data_2`.
-    pca_centroid : type
-        Description of parameter `pca_centroid`.
-    pca_op : type
-        Description of parameter `pca_op`.
-    partitions : type
-        Description of parameter `partitions`.
-    diff_operator : type
-        Description of parameter `diff_operator`.
-    diff_pca_op : type
-        Description of parameter `diff_pca_op`.
-    Xs : type
-        Description of parameter `Xs`.
-    NxTs : type
-        Description of parameter `NxTs`.
-    Ks : type
-        Description of parameter `Ks`.
-    Merges : type
-        Description of parameter `Merges`.
-    Ps : type
-        Description of parameter `Ps`.
-    scale : type
-        Description of parameter `scale`.
-    n_jobs : type
-        Description of parameter `n_jobs`.
+    data_1 : type TODO
+        Description of parameter `data_1`. TODO
+    data_2 : type TODO
+        Description of parameter `data_2`. TODO
+    pca_centroid : type TODO
+        Description of parameter `pca_centroid`. TODO
+    pca_op : type TODO
+        Description of parameter `pca_op`. TODO
+    partitions : type TODO
+        Description of parameter `partitions`. TODO
+    diff_operator : type TODO
+        Description of parameter `diff_operator`. TODO
+    diff_pca_op : type TODO
+        Description of parameter `diff_pca_op`. TODO
+    Xs : type TODO
+        Description of parameter `Xs`. TODO
+    NxTs : type TODO
+        Description of parameter `NxTs`. TODO
+    Ks : type TODO
+        Description of parameter `Ks`. TODO
+    Merges : type TODO
+        Description of parameter `Merges`. TODO
+    Ps : type TODO
+        Description of parameter `Ps`. TODO
+    scale : type TODO
+        Description of parameter `scale`. TODO
+    n_jobs : type TODO
+        Description of parameter `n_jobs`. TODO
     random_state : integer or numpy.RandomState, optional, default: None
         The random number generator.
         If an integer is given, it fixes the seed.
@@ -163,8 +163,8 @@ def online_update_tree(
 
     Returns
     -------
-    type
-        Description of returned object.
+    type TODO
+        Description of returned object. TODO
 
     """
     with tasklogger.log_task("Multiscale PHATE tree mapping"):

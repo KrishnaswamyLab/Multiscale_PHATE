@@ -4,17 +4,17 @@ import tasklogger
 
 
 def repulsion(temp):
-    """Short summary.
+    """Short summary. TODO
 
     Parameters
     ----------
-    temp : type
-        Description of parameter `temp`.
+    temp : type TODO
+        Description of parameter `temp`. TODO
 
     Returns
     -------
-    type
-        Description of returned object.
+    type TODO
+        Description of returned object. TODO
 
     """
     for r in range(temp.shape[0]):
@@ -29,19 +29,19 @@ def repulsion(temp):
 
 
 def condense_visualization(merge_pairs, phate):
-    """Short summary.
+    """Short summary. TODO
 
     Parameters
     ----------
-    merge_pairs : type
-        Description of parameter `merge_pairs`.
-    phate : type
-        Description of parameter `phate`.
+    merge_pairs : type TODO
+        Description of parameter `merge_pairs`. TODO
+    phate : type TODO
+        Description of parameter `phate`. TODO
 
     Returns
     -------
-    type
-        Description of returned object.
+    type TODO
+        Description of returned object. TODO
 
     """
     to_delete = []
@@ -54,19 +54,19 @@ def condense_visualization(merge_pairs, phate):
 
 
 def compute_gradient(Xs, merges):
-    """Short summary.
+    """Short summary. TODO
 
     Parameters
     ----------
-    Xs : type
-        Description of parameter `Xs`.
-    merges : type
-        Description of parameter `merges`.
+    Xs : type TODO
+        Description of parameter `Xs`. TODO
+    merges : type TODO
+        Description of parameter `merges`. TODO
 
     Returns
     -------
-    type
-        Description of returned object.
+    type TODO
+        Description of returned object. TODO
 
     """
     tasklogger.log_info("Computing gradient...")
@@ -89,19 +89,17 @@ def compute_gradient(Xs, merges):
 
 
 def get_levels(grad):
-    """Short summary.
+    """Short summary. TODO
 
     Parameters
     ----------
-    grad : type
-        Description of parameter `Xs`.
+    grad : type TODO
+        Description of parameter `Xs`. TODO
 
     Returns
     -------
-    type
-        Description of returned object.
-
-
+    type TODO
+        Description of returned object. TODO
     """
     tasklogger.log_info("Identifying salient levels of resolution...")
     minimum = np.max(grad)
@@ -125,11 +123,11 @@ def get_zoom_visualization(
     n_jobs,
     random_state=None,
 ):
-    """Short summary
+    """Short summary TODO
 
     Parameters
     ----------
-
+    TODO
     random_state : integer or numpy.RandomState, optional, default: None
         The generator used to initialize MDS.
         If an integer is given, it fixes the seed.
@@ -148,22 +146,21 @@ def get_zoom_visualization(
 
 
 def compute_ideal_visualization_layer(gradient, Xs, min_cells=100):
-    """Short summary.
+    """Short summary. TODO
 
     Parameters
     ----------
-    gradient : type
-        Description of parameter `gradient`.
-    Xs : type
-        Description of parameter `Xs`.
-    min_cells : type
-        Description of parameter `min_cells`.
+    gradient : type TODO
+        Description of parameter `gradient`. TODO
+    Xs : type TODO
+        Description of parameter `Xs`. TODO
+    min_cells : type TODO
+        Description of parameter `min_cells`. TODO
 
     Returns
     -------
-    type
-        Description of returned object.
-
+    type TODO
+        Description of returned object. TODO
     """
     minimum = np.max(gradient)
     min_layer = 0
@@ -181,23 +178,22 @@ def compute_ideal_visualization_layer(gradient, Xs, min_cells=100):
 def get_clusters_sizes_2(
     clusters_full, layer, NxT, X, repulse=False, n_jobs=10, random_state=None
 ):
-    """Short summary.
+    """Short summary. TODO
 
     Parameters
-    Parameters
     ----------
-    clusters_full : type
-        Description of parameter `clusters_full`.
-    layer : type
-        Description of parameter `layer`.
-    NxT : type
-        Description of parameter `NxT`.
-    X : type
-        Description of parameter `X`.
-    repulse : type
-        Description of parameter `repulse`.
-    n_jobs : type
-        Description of parameter `n_jobs`.
+    clusters_full : type TODO
+        Description of parameter `clusters_full`. TODO
+    layer : type TODO
+        Description of parameter `layer`. TODO
+    NxT : type TODO
+        Description of parameter `NxT`. TODO
+    X : type TODO
+        Description of parameter `X`. TODO
+    repulse : type TODO
+        Description of parameter `repulse`. TODO
+    n_jobs : type TODO
+        Description of parameter `n_jobs`. TODO
     random_state : integer or numpy.RandomState, optional, default: None
         The generator used to initialize MDS.
         If an integer is given, it fixes the seed.
@@ -205,9 +201,8 @@ def get_clusters_sizes_2(
 
     Returns
     -------
-    type
-        Description of returned object.
-
+    type TODO
+        Description of returned object. TODO
     """
     unique = np.unique(NxT[layer], return_index=True, return_counts=True)
 

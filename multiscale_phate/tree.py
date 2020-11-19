@@ -62,7 +62,7 @@ def build_tree(
 
         # Computing compression features
         n_pca, partitions = compress.get_compression_features(
-            N, features, n_pca, partitions, landmarks
+            N, features, n_pca, partitions
         )
 
         with _logger.task("PCA"):

@@ -9,7 +9,7 @@ import scipy.spatial.distance
 _logger = tasklogger.get_tasklogger("graphtools")
 
 
-def get_compression_features(N, features, n_pca, partitions, landmarks):
+def get_compression_features(N, features, n_pca, partitions):
     """Short summary. TODO
 
     Parameters

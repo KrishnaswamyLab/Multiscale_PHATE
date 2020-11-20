@@ -29,7 +29,7 @@ Quick Start
 ```
 import multiscale_phate
 mp_op = multiscale_phate.Multiscale_PHATE()
-mp_embedding, mp_clusters, mp_sizes, tree = mp_op.fit_transform(X)
+mp_embedding, mp_clusters, mp_sizes = mp_op.fit_transform(X)
 
 # Plot optimal visualization
 scprep.plot.scatter2d(mp_embedding, s = mp_sizes, c = mp_clusters,

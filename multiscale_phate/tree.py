@@ -3,6 +3,8 @@ import tasklogger
 import sklearn.decomposition
 from . import compress, diffuse, condense
 
+_logger = tasklogger.get_tasklogger("graphtools")
+
 
 def build_tree(
     data_input,
@@ -15,32 +17,35 @@ def build_tree(
     gamma=1,
     knn=5,
     n_jobs=10,
+    verbose=1,
     random_state=None,
 ):
-    """Short summary.
+    """Short summary. TODO
 
     Parameters
     ----------
-    data_input : type
-        Description of parameter `data_input`.
-    scale : type
-        Description of parameter `scale`.
-    landmarks : type
-        Description of parameter `landmarks`.
-    partitions : type
-        Description of parameter `partitions`.
-    granularity : type
-        Description of parameter `granularity`.
-    n_pca : type
-        Description of parameter `n_pca`.
-    decay : type
-        Description of parameter `decay`.
-    gamma : type
-        Description of parameter `gamma`.
-    knn : type
-        Description of parameter `knn`.
-    n_jobs : type
-        Description of parameter `n_jobs`.
+    data_input : type TODO
+        Description of parameter `data_input`. TODO
+    scale : type TODO
+        Description of parameter `scale`. TODO
+    landmarks : type TODO
+        Description of parameter `landmarks`. TODO
+    partitions : type TODO
+        Description of parameter `partitions`. TODO
+    granularity : type TODO
+        Description of parameter `granularity`. TODO
+    n_pca : type TODO
+        Description of parameter `n_pca`. TODO
+    decay : type TODO
+        Description of parameter `decay`. TODO
+    gamma : type TODO
+        Description of parameter `gamma`. TODO
+    knn : type TODO
+        Description of parameter `knn`. TODO
+    n_jobs : type TODO
+        Description of parameter `n_jobs`. TODO
+    verbose : `int`, optional (default: 1)
+        If `> 0`, print status messages
     random_state : integer or numpy.RandomState, optional, default: None
         The random number generator.
         If an integer is given, it fixes the seed.
@@ -48,25 +53,25 @@ def build_tree(
 
     Returns
     -------
-    type
-        Description of returned object.
+    type TODO
+        Description of returned object. TODO
 
     """
-    with tasklogger.log_task("Multiscale PHATE tree"):
+    with _logger.task("Multiscale PHATE tree"):
         N, features = data_input.shape
 
         # Computing compression features
         n_pca, partitions = compress.get_compression_features(
-            N, features, n_pca, partitions, landmarks
+            N, features, n_pca, partitions
         )
 
-        with tasklogger.log_task("PCA"):
+        with _logger.task("PCA"):
             pca_op = sklearn.decomposition.PCA(n_components=n_pca)
             data_pca = pca_op.fit_transform(np.array(data_input))
         clusters = np.arange(N)
 
         # Subsetting if required
-        if partitions != None:
+        if partitions is not None:
             partition_clusters = compress.subset_data(
                 data_pca, partitions, n_jobs=n_jobs, random_state=random_state
             )
@@ -74,7 +79,15 @@ def build_tree(
             clusters = partition_clusters
 
         X, diff_op, diff_pca = diffuse.compute_diffusion_potential(
-            data_pca, N, decay, gamma, knn, landmarks, n_jobs, random_state=random_state
+            data_pca,
+            N,
+            decay,
+            gamma,
+            knn,
+            landmarks,
+            n_jobs,
+            verbose=verbose - 1,
+            random_state=random_state,
         )
 
         epsilon, merge_threshold = condense.compute_condensation_param(
@@ -124,38 +137,38 @@ def online_update_tree(
     n_jobs=10,
     random_state=None,
 ):
-    """Short summary.
+    """Short summary. TODO
 
     Parameters
     ----------
-    data_1 : type
-        Description of parameter `data_1`.
-    data_2 : type
-        Description of parameter `data_2`.
-    pca_centroid : type
-        Description of parameter `pca_centroid`.
-    pca_op : type
-        Description of parameter `pca_op`.
-    partitions : type
-        Description of parameter `partitions`.
-    diff_operator : type
-        Description of parameter `diff_operator`.
-    diff_pca_op : type
-        Description of parameter `diff_pca_op`.
-    Xs : type
-        Description of parameter `Xs`.
-    NxTs : type
-        Description of parameter `NxTs`.
-    Ks : type
-        Description of parameter `Ks`.
-    Merges : type
-        Description of parameter `Merges`.
-    Ps : type
-        Description of parameter `Ps`.
-    scale : type
-        Description of parameter `scale`.
-    n_jobs : type
-        Description of parameter `n_jobs`.
+    data_1 : type TODO
+        Description of parameter `data_1`. TODO
+    data_2 : type TODO
+        Description of parameter `data_2`. TODO
+    pca_centroid : type TODO
+        Description of parameter `pca_centroid`. TODO
+    pca_op : type TODO
+        Description of parameter `pca_op`. TODO
+    partitions : type TODO
+        Description of parameter `partitions`. TODO
+    diff_operator : type TODO
+        Description of parameter `diff_operator`. TODO
+    diff_pca_op : type TODO
+        Description of parameter `diff_pca_op`. TODO
+    Xs : type TODO
+        Description of parameter `Xs`. TODO
+    NxTs : type TODO
+        Description of parameter `NxTs`. TODO
+    Ks : type TODO
+        Description of parameter `Ks`. TODO
+    Merges : type TODO
+        Description of parameter `Merges`. TODO
+    Ps : type TODO
+        Description of parameter `Ps`. TODO
+    scale : type TODO
+        Description of parameter `scale`. TODO
+    n_jobs : type TODO
+        Description of parameter `n_jobs`. TODO
     random_state : integer or numpy.RandomState, optional, default: None
         The random number generator.
         If an integer is given, it fixes the seed.
@@ -163,13 +176,13 @@ def online_update_tree(
 
     Returns
     -------
-    type
-        Description of returned object.
+    type TODO
+        Description of returned object. TODO
 
     """
-    with tasklogger.log_task("Multiscale PHATE tree mapping"):
+    with _logger.task("Multiscale PHATE tree mapping"):
         if data_1.shape[0] != len(np.unique(partitions)):
-            tasklogger.log_info("PCA compressing new data...")
+            _logger.info("PCA compressing new data...")
             data_pca_1 = pca_op.transform(np.array(data_1))
             data_pca_2 = pca_op.transform(np.array(data_2))
 
@@ -177,9 +190,10 @@ def online_update_tree(
             partition_assignments = compress.map_update_data(
                 pca_centroid, data_pca_1, data_pca_2, partitions, nn=5, n_jobs=n_jobs
             )
-            tasklogger.log_info(
-                "Points not mapped to partitions: "
-                + str(sum(partition_assignments == -1))
+            _logger.info(
+                "Points not mapped to partitions: {}".format(
+                    sum(partition_assignments == -1)
+                )
             )
 
             # creating new joint paritions mapping
@@ -223,7 +237,7 @@ def online_update_tree(
 
             else:
                 clusters = new_partition_clusters
-                tasklogger.log_info("Rebuilding condensation tree...")
+                _logger.info("Rebuilding condensation tree...")
                 clusters_idx = []
 
                 for c in clusters:
@@ -231,12 +245,12 @@ def online_update_tree(
 
                 NxTs_l = []
 
-                for l in range(len(NxTs)):
-                    NxTs_l.append(NxTs[l][clusters_idx])
+                for layer in range(len(NxTs)):
+                    NxTs_l.append(NxTs[layer][clusters_idx])
                 return NxTs_l, Xs, Ks, Merges, Ps, pca_centroid
 
         else:
-            tasklogger.log_info("PCA compressing new data...")
+            _logger.info("PCA compressing new data...")
             data_pca_2 = pca_op.transform(np.array(data_2))
             diff_pot_1 = diffuse.online_update_diffusion_potential(
                 data_pca_2, diff_operator, diff_pca_op

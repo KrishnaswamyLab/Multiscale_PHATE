@@ -5,28 +5,32 @@ import sklearn.decomposition
 
 from . import compress
 
+_logger = tasklogger.get_tasklogger("graphtools")
+
 
 def compute_diffusion_potential(
-    data, N, decay, gamma, knn, landmarks=2000, n_jobs=10, random_state=None
+    data, N, decay, gamma, knn, landmarks=2000, n_jobs=10, verbose=0, random_state=None
 ):
-    """Short summary.
+    """Short summary. TODO
 
     Parameters
     ----------
-    data : type
-        Description of parameter `data`.
-    N : type
-        Description of parameter `N`.
-    decay : type
-        Description of parameter `decay`.
-    gamma : type
-        Description of parameter `gamma`.
-    knn : type
-        Description of parameter `knn`.
-    landmarks : type
-        Description of parameter `landmarks`.
-    n_jobs : type
-        Description of parameter `n_jobs`.
+    data : type TODO
+        Description of parameter `data`. TODO
+    N : type TODO
+        Description of parameter `N`. TODO
+    decay : type TODO
+        Description of parameter `decay`. TODO
+    gamma : type TODO
+        Description of parameter `gamma`. TODO
+    knn : type TODO
+        Description of parameter `knn`. TODO
+    landmarks : type TODO
+        Description of parameter `landmarks`. TODO
+    n_jobs : type TODO
+        Description of parameter `n_jobs`. TODO
+    verbose : `int`, optional (default: 0)
+        If `> 0`, print status messages
     random_state : integer or numpy.RandomState, optional, default: None
         The generator used to initialize PHATE and PCA.
         If an integer is given, it fixes the seed.
@@ -34,23 +38,23 @@ def compute_diffusion_potential(
 
     Returns
     -------
-    type
-        Description of returned object.
+    type TODO
+        Description of returned object. TODO
 
     """
-    with tasklogger.log_task("diffusion potential"):
+    with _logger.task("diffusion potential"):
 
-        if landmarks != None and landmarks > data.shape[0]:
+        if landmarks is not None and landmarks > data.shape[0]:
             landmarks = None
 
         diff_op = phate.PHATE(
-            verbose=False,
             n_landmark=landmarks,
             decay=decay,
             gamma=gamma,
             n_pca=None,
             knn=knn,
             n_jobs=n_jobs,
+            verbose=verbose,
             random_state=random_state,
         )
         diff_op.fit(data)
@@ -68,25 +72,25 @@ def compute_diffusion_potential(
 
 
 def online_update_diffusion_potential(unmapped_data, diff_op, dp_pca):
-    """Short summary.
+    """Short summary. TODO
 
     Parameters
     ----------
-    unmapped_data : type
-        Description of parameter `unmapped_data`.
-    diff_op : type
-        Description of parameter `diff_op`.
-    dp_pca : type
-        Description of parameter `dp_pca`.
+    unmapped_data : type TODO
+        Description of parameter `unmapped_data`. TODO
+    diff_op : type TODO
+        Description of parameter `diff_op`. TODO
+    dp_pca : type TODO
+        Description of parameter `dp_pca`. TODO
 
     Returns
     -------
-    type
-        Description of returned object.
+    type TODO
+        Description of returned object. TODO
 
     """
-    with tasklogger.log_task("extended diffusion potential"):
-        with tasklogger.log_task("extended kernel"):
+    with _logger.task("extended diffusion potential"):
+        with _logger.task("extended kernel"):
             # Extending kernel to new data
             transitions = diff_op.graph.extend_to_data(unmapped_data)
 

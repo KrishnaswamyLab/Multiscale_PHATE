@@ -2,17 +2,16 @@ import pickle
 
 
 def hash_object(X):
-    """Short summary.
+    """Compute a unique hash of any Python object.
 
     Parameters
     ----------
-    X : type
-        Description of parameter `X`.
+    X : object
+        Object for which to compute unique hash
 
     Returns
     -------
-    type
-        Description of returned object.
-
+    hash : str
+        Unique hash based on pickle dump of X.
     """
     return hash(pickle.dumps(X))

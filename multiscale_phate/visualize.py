@@ -4,19 +4,21 @@ import warnings
 
 from . import embed
 
+_logger = tasklogger.get_tasklogger("graphtools")
+
 
 def get_visualization(
     Xs, NxTs, cluster_level, visualization_level, repulse, random_state=None
 ):
-    """Short summary.
+    """Short summary. TODO
 
     Parameters
     ----------
-    Xs : type
+    Xs : type TODO
         Description of parameter `Xs`.
-    NxTs : type
+    NxTs : type TODO
         Description of parameter `NxTs`.
-    merges : type
+    merges : type TODO
         Description of parameter `merges`.
     random_state : integer or numpy.RandomState, optional, default: None
         The generator used to initialize MDS.
@@ -25,7 +27,7 @@ def get_visualization(
 
     Returns
     -------
-    type
+    type TODO
         Description of returned object.
 
     """
@@ -41,15 +43,15 @@ def get_visualization(
 
 
 def build_visualization(Xs, NxTs, merges, gradient, min_cells, random_state=None):
-    """Short summary.
+    """Short summary. TODO
 
     Parameters
     ----------
-    Xs : type
+    Xs : type TODO
         Description of parameter `Xs`.
-    NxTs : type
+    NxTs : type TODO
         Description of parameter `NxTs`.
-    merges : type
+    merges : type TODO
         Description of parameter `merges`.
     random_state : integer or numpy.RandomState, optional, default: None
         The generator used to initialize MDS.
@@ -58,11 +60,10 @@ def build_visualization(Xs, NxTs, merges, gradient, min_cells, random_state=None
 
     Returns
     -------
-    type
+    type TODO
         Description of returned object.
 
     """
-
     min_layer = embed.compute_ideal_visualization_layer(gradient, Xs, min_cells)
     (hp_embedding, cluster_viz, sizes_viz,) = embed.get_clusters_sizes_2(
         np.array(NxTs[-35]),
@@ -76,30 +77,14 @@ def build_visualization(Xs, NxTs, merges, gradient, min_cells, random_state=None
 
 
 def map_clusters_to_tree(clusters, NxTs):
-    clusters_tree = []
-
-    for l in range(len(NxTs) - 1):
-        _, ind = np.unique(NxTs[l], return_index=True)
-        clusters_tree.extend(clusters[ind])
-
-    return clusters_tree
-
-
-def build_condensation_tree(data_pca, diff_op, NxT, merged_list, Ps):
     """Short summary.
 
     Parameters
     ----------
-    data_pca : type
-        Description of parameter `data_pca`.
-    diff_op : type
-        Description of parameter `diff_op`.
-    NxT : type
-        Description of parameter `NxT`.
-    merged_list : type
-        Description of parameter `merged_list`.
-    Ps : type
-        Description of parameter `Ps`.
+    clusters : type
+        Description of parameter `clusters`.
+    NxTs : type
+        Description of parameter `NxTs`.
 
     Returns
     -------
@@ -107,13 +92,45 @@ def build_condensation_tree(data_pca, diff_op, NxT, merged_list, Ps):
         Description of returned object.
 
     """
-    with tasklogger.log_task("base visualization"):
+    clusters_tree = []
+
+    for layer in range(len(NxTs) - 1):
+        _, ind = np.unique(NxTs[layer], return_index=True)
+        clusters_tree.extend(clusters[ind])
+
+    return clusters_tree
+
+
+def build_condensation_tree(data_pca, diff_op, NxT, merged_list, Ps):
+    """Short summary. TODO
+
+    Parameters
+    ----------
+    data_pca : type TODO
+        Description of parameter `data_pca`.
+    diff_op : type TODO
+        Description of parameter `diff_op`.
+    NxT : type TODO
+        Description of parameter `NxT`.
+    merged_list : type TODO
+        Description of parameter `merged_list`.
+    Ps : type TODO
+        Description of parameter `Ps`.
+
+    Returns
+    -------
+    type TODO
+        Description of returned object.
+
+    """
+    with _logger.task("base visualization"):
         with warnings.catch_warnings():
             warnings.filterwarnings(
                 "ignore",
                 category=RuntimeWarning,
-                message="Pre-fit PHATE should not be used to transform a new data matrix. "
-                "Please fit PHATE to the new data by running 'fit' with the new data.",
+                message="Pre-fit PHATE should not be used to transform a new data "
+                "matrix. Please fit PHATE to the new data by running 'fit' with the "
+                "new data.",
             )
             tree_phate = diff_op.transform(data_pca)
 
@@ -131,22 +148,22 @@ def build_condensation_tree(data_pca, diff_op, NxT, merged_list, Ps):
 
     m = 0
 
-    with tasklogger.log_task("tree"):
-        for l in range(0, len(Ps)):
-            if len(np.unique(NxT[l])) != len(np.unique(NxT[l + 1])):
+    with _logger.task("tree"):
+        for layer in range(0, len(Ps)):
+            if len(np.unique(NxT[layer])) != len(np.unique(NxT[layer + 1])):
                 tree_phate_1 = embed.condense_visualization(merged_list[m], tree_phate)
                 m = m + 1
-            if Ps[l].shape[0] != tree_phate_1.shape[0]:
+            if Ps[layer].shape[0] != tree_phate_1.shape[0]:
                 tree_phate_1 = embed.condense_visualization(
                     merged_list[m], tree_phate_1
                 )
                 m = m + 1
-            tree_phate = Ps[l] @ tree_phate_1
+            tree_phate = Ps[layer] @ tree_phate_1
             embeddings.append(
                 np.concatenate(
                     [
                         tree_phate,
-                        np.repeat(l + 1, tree_phate.shape[0]).reshape(
+                        np.repeat(layer + 1, tree_phate.shape[0]).reshape(
                             tree_phate.shape[0], 1
                         ),
                     ],

@@ -3,7 +3,6 @@ from . import tree, embed, utils, visualize
 
 class Multiscale_PHATE(object):
     """Multscale PHATE operator which performs dimensionality reduction and clustering across granularities.
-
     Parameters
     ----------
     scale : float, default: 1.025
@@ -74,7 +73,6 @@ class Multiscale_PHATE(object):
         The generator used to initialize SMACOF (metric, nonmetric) MDS
         If an integer is given, it fixes the seed
         Defaults to the global `numpy` random number generator
-
     Attributes
     ----------
     scale
@@ -100,7 +98,6 @@ class Multiscale_PHATE(object):
     merge_threshold
     gradient
     levels
-
     """
 
     def __init__(
@@ -145,14 +142,12 @@ class Multiscale_PHATE(object):
 
     def fit(self, X):
         """Builds Diffusion Condensation tree and computes ideal resolutions.
-
         Parameters
         ----------
         X : array, shape=[n_samples, n_features]
             input data with `n_samples` samples and `n_dimensions`
             dimensions. Accepted data types: `numpy.ndarray`,
             `scipy.sparse.spmatrix` and `pd.DataFrame`.
-
         Returns
         -------
         multiscale_phate_operator : Multiscale_PHATE
@@ -256,7 +251,6 @@ class Multiscale_PHATE(object):
 
     def build_tree(self):
         """Computes and returns a tree from the Diffusion Condensation process.
-
         Returns
         -------
         embedding : array, shape=[n_points_aggregated, 3]
@@ -270,14 +264,12 @@ class Multiscale_PHATE(object):
     def fit_transform(self, X):
         """Builds Diffusion Condensation tree, identifies ideal resolutions and returns
          Multiscale PHATE embedding and clusters.
-
         Parameters
         ----------
         X : array, shape=[n_samples, n_features]
             input data with `n_samples` samples and `n_dimensions`
             dimensions. Accepted data types: `numpy.ndarray`,
             `scipy.sparse.spmatrix` and `pd.DataFrame`.
-
         Returns
         -------
         embedding : array, shape=[number of points in visualization_level, 2]
@@ -295,17 +287,55 @@ class Multiscale_PHATE(object):
 
     def get_tree_clusters(self, cluster_level):
         """Colors Diffusion Condensation tree by a granularity of clusters.
-
         Parameters
         ----------
         cluster_level : int
             Resolution of Diffusion Condensation tree to visualize clusters.
-
         Returns
         -------
         clusters_tree : list, shape=[n_points_aggregated]
             Cluster labels of each point in computed diffusion condensation tree
             as dictated by a granularity of the tree
-
         """
         return visualize.map_clusters_to_tree(self.NxTs[cluster_level], self.NxTs)
+    
+    def get_expression(self, expression, visualization_level, coarse_cluster_level=None,
+                       coarse_cluster= None, smooth=True, smooth_knn=5):
+        """Map expression from single cell space to Multiscale PHATE embedding
+        ----------
+        expression: array, shape=[n_cells]
+            Expression vector that you want to map to coarse granularity
+        layer: int
+            Coarse granularity
+        smooth: bool
+            Whether to use smoothing on coarse granularity as developed in
+            MAGIC (van dijk et al. 2018)
+        smooth_knn: int
+            Nearest neighbor bandwidth of smoothing parameter if smooth is True
+        
+        Returns
+        -------
+        expression : array, shape=[n_points_aggregated]
+            Denoised expression vector mapped to coarse granularity
+        """
+        clust_unique = np.unique(np.array(self.NxTs[visualization_level]))
+        loc = []
+        for c in clust_unique:
+            loc.append(np.where(np.array(self.NxTs[visualization_level]) == c)[0])
+
+        exp = []
+        for l in loc:
+            exp.append(np.mean(expression[l]))
+            
+        exp = np.array(exp)
+        
+        if smooth:
+            G = graphtools.Graph(self.Xs[visualization_level], knn = smooth_knn,n_jobs=self.n_jobs)
+            exp = G.P.toarray()@exp
+        if coarse_cluster!=None and coarse_cluster_level!=None:
+            unique = np.unique(
+            self.NxTs[visualization_level], return_index=True, return_counts=True
+                )
+            extract = self.NxTs[coarse_cluster_level][unique[1]] == coarse_cluster
+            exp = exp[extract]
+        return exp

@@ -61,7 +61,7 @@ def build_tree(
         )
 
         with tasklogger.log_task("PCA"):
-            pca_op = sklearn.decomposition.PCA(n_components=n_pca)
+            pca_op = sklearn.decomposition.PCA(n_components=n_pca, random_state=random_state)
             data_pca = pca_op.fit_transform(np.array(data_input))
         clusters = np.arange(N)
 

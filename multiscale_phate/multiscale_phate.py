@@ -1,4 +1,5 @@
 from . import tree, embed, utils, visualize
+import numpy as np, graphtools
 
 
 class Multiscale_PHATE(object):

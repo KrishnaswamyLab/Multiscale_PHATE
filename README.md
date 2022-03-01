@@ -8,7 +8,7 @@ Multiscale PHATE
 [![GitHub stars](https://img.shields.io/github/stars/KrishnaswamyLab/Multiscale_PHATE.svg?style=social&label=Stars)](https://github.com/KrishnaswamyLab/Multiscale_PHATE/)
 [![Code style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-Multiscale PHATE is a python package for multiresolution analysis of high dimensional data. For an in-depth explanation of the algorithm and applications, please read our manuscript on [BioRxiv](https://www.biorxiv.org/content/10.1101/2020.11.15.383661v1.article-info).
+Multiscale PHATE is a python package for multiresolution analysis of high dimensional data. For an in-depth explanation of the algorithm and applications, please read our manuscript on [Nature Biotechnology](https://www.nature.com/articles/s41587-021-01186-x).
 
 The biomedical community is producing increasingly high dimensional datasets integrated from hundreds of patient samples that current computational techniques are unable to explore across granularities. To visualize, cluster and analyze massive datasets across granularities, we created Multiscale PHATE. The goal of Multiscale PHATE is to learn and visualize abstract cellular features and groupings of the data at all levels of granularity in an efficient manner to identify meaningful biological relationships and mechanisms. Our approach learns a tree of data granularities which can be cut at coarse levels for high level summarizations of data as well as at fine levels for detailed representations on subsets.
 

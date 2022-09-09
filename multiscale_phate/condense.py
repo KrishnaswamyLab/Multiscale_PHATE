@@ -120,7 +120,7 @@ def condense(X, clusters, scale, epsilon, merge_threshold, n_jobs, random_state=
 
     N = X.shape[0]
 
-    for c in range(len(np.unique(clusters))):
+    for c in np.unique(clusters):
         loc = np.where(c == clusters)[0]
         X_cont.append(list(loc))
     X_1 = X.copy()

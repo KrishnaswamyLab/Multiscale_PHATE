@@ -1,9 +1,21 @@
+import contextlib
 import numpy as np
 import joblib
 import tasklogger
 import sklearn.cluster
 import sklearn.neighbors
 import scipy.spatial.distance
+from joblib.externals.loky import set_loky_pickler
+
+
+@contextlib.contextmanager
+def custom_loky_pickler(pickler):
+    try:
+        set_loky_pickler(pickler)
+        yield
+    finally:
+        # revert to default
+        set_loky_pickler()
 
 
 def get_compression_features(N, features, n_pca, partitions, landmarks):
@@ -132,25 +144,26 @@ def subset_data(data, desired_num_clusters, n_jobs, num_cluster=100, random_stat
         clusters_unique, cluster_counts = np.unique(clusters, return_counts=True)
         clusters_next_iter = clusters.copy()
 
-        while np.max(cluster_counts) > np.ceil(N / desired_num_clusters):
-            min_val = 0
-            partitions_id_uni = joblib.Parallel(n_jobs=n_jobs)(
-                joblib.delayed(cluster_components)(
-                    data[np.where(clusters == clusters_unique[i])[0], :],
-                    num_cluster,
-                    size,
-                    random_state=random_state,
+        with custom_loky_pickler('pickle'):
+            while np.max(cluster_counts) > np.ceil(N / desired_num_clusters):
+                min_val = 0
+                partitions_id_uni = joblib.Parallel(n_jobs=n_jobs)(
+                    joblib.delayed(cluster_components)(
+                        data[np.where(clusters == clusters_unique[i])[0], :],
+                        num_cluster,
+                        size,
+                        random_state=random_state,
+                    )
+                    for i in range(len(clusters_unique))
                 )
-                for i in range(len(clusters_unique))
-            )
 
-            for i in range(len(clusters_unique)):
-                loc = np.where(clusters == clusters_unique[i])[0]
-                clusters_next_iter[loc] = np.array(partitions_id_uni[i]) + min_val
-                min_val = min_val + np.max(np.array(partitions_id_uni[i])) + 1
+                for i in range(len(clusters_unique)):
+                    loc = np.where(clusters == clusters_unique[i])[0]
+                    clusters_next_iter[loc] = np.array(partitions_id_uni[i]) + min_val
+                    min_val = min_val + np.max(np.array(partitions_id_uni[i])) + 1
 
-            clusters = clusters_next_iter.copy()
-            clusters_unique, cluster_counts = np.unique(clusters, return_counts=True)
+                clusters = clusters_next_iter.copy()
+                clusters_unique, cluster_counts = np.unique(clusters, return_counts=True)
 
     return clusters
 

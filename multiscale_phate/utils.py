@@ -15,4 +15,4 @@ def hash_object(X):
         Description of returned object.
 
     """
-    return hash(pickle.dumps(X))
+    return hash(pickle.dumps(X, protocol=pickle.HIGHEST_PROTOCOL))
